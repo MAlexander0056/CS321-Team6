@@ -15,15 +15,15 @@ package com.group1.cs321.team6;
  *  Member variables: Each user preset. Sends to database
  */
 public class SQLConnection {
-    private static final String URL;
-    private static final String USER;
-    private static final String PASSWORD;
+    private static final String URL = null;
+    private static final String USER = null;
+    private static final String PASSWORD = null;
     
     /**
      * 
      *  Attempt to find user
      */
-    public DatabaseConnection () {
+    public void DatabaseConnection () {
         
     }
     
@@ -31,7 +31,7 @@ public class SQLConnection {
      * 
      *  Simple getter method for connectivity state
      */
-    public getConnection() {
+    public void getConnection() {
         
     }
    

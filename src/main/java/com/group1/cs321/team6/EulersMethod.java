@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.group1.cs321.team6;
+import com.group1.cs321.team6.UserInput;
 import java.lang.Object;
 import org.apache.commons.math4.legacy.ode.AbstractIntegrator;
 import org.apache.commons.math4.legacy.ode.nonstiff.RungeKuttaIntegrator;
@@ -38,8 +39,8 @@ public class EulersMethod {
      *  @return Expression Comes from exp4j library, which handles math string parsing
      *
      */
-    public Expression ParseExpression () {
-        
+    private Expression ParseExpression () {
+        return null;
     }
     
     /**
@@ -47,11 +48,19 @@ public class EulersMethod {
      * @param yDot Computes the derivative. 
      *  Necessary for Apache Commons Euler integrator
      */
-    public void computeDerivatives (Expression parsedEquation, double[] yDot) {
+    private void computeDerivatives (Expression parsedEquation, double[] yDot) {
         
     }
     
-    public int getDimension() {
+    private int getDimension() {
         return 1;
+    }
+    
+    /**
+     * 
+     * Returns a set of values necessary to plot the approximation
+     */
+    private double[] integrateFunction () {
+        return null;
     }
 }
