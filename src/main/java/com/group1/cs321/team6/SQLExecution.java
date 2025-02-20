@@ -21,6 +21,10 @@ public class SQLExecution {
      */
     private SQLConnection sqlConnection;
     
+    SQLExecution (SQLConnection sqlConnectionInput) {
+        this.sqlConnection = sqlConnectionInput;
+    }
+    
     /**
      * 
      * @param username

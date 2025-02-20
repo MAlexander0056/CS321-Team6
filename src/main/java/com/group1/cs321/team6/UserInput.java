@@ -5,7 +5,6 @@
 package com.group1.cs321.team6;
 import com.group1.cs321.team6.SQLExecution;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -15,11 +14,44 @@ import java.util.Map;
 /**
  * 
  *  Handles user input, packages and prepares for database INSERT
+ *  A user consists of username, password (may not need), and their numerical inputs
  */
 public class UserInput {
-    private Map<String, Integer> presets;
+    /** 
+     * 
+     *  Presets will be something of the form: {"Equation"=value1, "Initial Condition"=value, "Other Parameter1=null", etc...}
+     *     
+     */
+    // Potential advantage of HashMaps: They allow for null values, which should prove more useful than maps.
     
-    UserInput () {
-        
+    private static String username = null;
+    private static String password = null;
+    
+    private HashMap<String, Integer> presets;
+    
+    UserInput (HashMap<String, Integer> presetsInput, String usernameInput, String passwordInput) {
+        this.presets = presetsInput;
+        this.username = usernameInput;
+        this.password = passwordInput;
+    }
+    
+    /**
+     * 
+     *  These getters are neccessary for other classes to perform database retrieval and insertion 
+     */
+    public String getUsername () {
+        return this.username;
+    }
+    
+    public String getPassword () {
+        return this.password;
+    }
+    
+    /**
+     * 
+     *  @return 
+     */
+    private String handleInput () {
+        return null;
     }
 }
