@@ -17,22 +17,35 @@
     </properties>
 
     <dependencies>
+		<!--DataBase-->
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.36.0.3</version>
         </dependency>
-       
+        <!--Different Solvers-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math4-legacy</artifactId>
             <version>4.0-beta1</version>
         </dependency>
-        
         <dependency>
             <groupId>net.objecthunter</groupId>
             <artifactId>exp4j</artifactId>
             <version>0.4.8</version>
+        </dependency>
+		<!--Plugin Stuff-->
+		<dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>3.6.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>3.6.3</version>
+            <scope>provided</scope>
         </dependency>
 		<!--Add other dependencies here-->
     </dependencies>
