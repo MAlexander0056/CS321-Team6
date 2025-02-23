@@ -18,18 +18,23 @@ public class CreateDatabaseMojo extends AbstractMojo{
     static final private String URL = "jdbc:sqlite:my.db" + System.getProperty("user.home") + "/.EquationSolver/StoredEquations.db";
 
     @Override
-    public void execute(){
+    public void execute() throws MojoExecutionException{
+        // Checking if db exists -> if it doesnt its created
         File directory = new File(System.getProperty("user.home")+"/.EquationSolver");
         if(!directory.exists()){
             directory.mkdirs();
-            // Log here saying Database created?
-        }
-        // Maybe a log here in an else statement saying that a database already existed
-        try(Connection conn = DriverManager.getConnection(URL)){
-            // connection succeded?
-        }
-        catch (Exception e) {
-            // Failed connection
+
+            getLog().info("Database was not found and a new one was created!");
+        } else getLog().info("DataBase was found!");
+
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            getLog().info("Database connection established successfully.");
+            // Additional database initialization code here
+        } catch (SQLException e) {
+            throw new MojoExecutionException("Failed to connect to the database.", e);
         }
     }
 }
+
+
+
