@@ -8,17 +8,15 @@ import java.sql.Statement;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Maven plugin to initialize and set up the SQLite database
- * for equation storage.
+ * Maven plugin to initialize the SQLite database for equation storage.
  */
-@Mojo(name = "initialize-database", defaultPhase = LifecyclePhase.VALIDATE)
-public class DatabaseInitializer extends AbstractMojo {
+@Mojo(name = "initialize-database", defaultPhase = LifecyclePhase.INITIALIZE)
+public class CreateDatabase extends AbstractMojo {
 
     /**
      * Path to the database file.
@@ -28,11 +26,11 @@ public class DatabaseInitializer extends AbstractMojo {
     private String dbPath;
 
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() throws MojoExecutionException {
         getLog().info("Initializing database at: " + dbPath);
         
         // Extract directory path from the full DB path
-        File directory = new File(dbPath).getParentFile();
+        File directory = new File(System.getProperty("user.home") + "/.EquationSolver");
         
         // Create directory if it doesn't exist
         if (!directory.exists()) {
@@ -49,11 +47,7 @@ public class DatabaseInitializer extends AbstractMojo {
         String jdbcUrl = "jdbc:sqlite:" + dbPath;
         getLog().info("JDBC URL: " + jdbcUrl);
         
-        // Initialize the database
         try {
-            // Load the JDBC driver
-            Class.forName("org.sqlite.JDBC");
-            
             // Create and/or connect to the database
             try (Connection conn = DriverManager.getConnection(jdbcUrl)) {
                 getLog().info("Database connection established successfully");
@@ -73,8 +67,6 @@ public class DatabaseInitializer extends AbstractMojo {
                     getLog().info("Database tables initialized successfully");
                 }
             }
-        } catch (ClassNotFoundException e) {
-            throw new MojoExecutionException("SQLite JDBC driver not found", e);
         } catch (SQLException e) {
             throw new MojoExecutionException("Failed to initialize database: " + e.getMessage(), e);
         }
