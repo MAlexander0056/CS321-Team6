@@ -21,13 +21,13 @@ public class CreateDatabase extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         
-        File dbDir = new File(System.getProperty("user.home"), ".EquationSolver");
-        
         // Creating folder if doesnt exist
+        File dbDir = new File(System.getProperty("user.home"), ".EquationSolver");
         if (!dbDir.exists()) {
             dbDir.mkdirs();
         }
         
+        // jdbc needs \ and not / it will break if replace isnt there
         File dbFile = new File(dbDir, "StoredEquations.db");
         String jdbcUrl = "jdbc:sqlite:" + dbFile.getAbsolutePath().replace("\\", "/");
 
