@@ -17,36 +17,20 @@ import org.apache.maven.plugins.annotations.Parameter;
  */
 @Mojo(name = "initialize-database", defaultPhase = LifecyclePhase.INITIALIZE)
 public class CreateDatabase extends AbstractMojo {
-
-    /**
-     * Path to the database file.
-     */
-    @Parameter(defaultValue = "${user.home}/.EquationSolver/StoredEquations.db", 
-               property = "dbPath", required = true)
-    private String dbPath;
-
+           
     @Override
     public void execute() throws MojoExecutionException {
-        getLog().info("Initializing database at: " + dbPath);
         
-        // Extract directory path from the full DB path
-        File directory = new File(System.getProperty("user.home") + "/.EquationSolver");
+        File dbDir = new File(System.getProperty("user.home"), ".EquationSolver");
         
-        // Create directory if it doesn't exist
-        if (!directory.exists()) {
-            getLog().info("Creating directory: " + directory.getAbsolutePath());
-            if (!directory.mkdirs()) {
-                throw new MojoExecutionException("Failed to create directory: " + directory.getAbsolutePath());
-            }
-            getLog().info("Directory created successfully");
-        } else {
-            getLog().info("Directory already exists: " + directory.getAbsolutePath());
+        // Creating folder if doesnt exist
+        if (!dbDir.exists()) {
+            dbDir.mkdirs();
         }
         
-        // Construct the JDBC URL
-        String jdbcUrl = "jdbc:sqlite:" + dbPath;
-        getLog().info("JDBC URL: " + jdbcUrl);
-        
+        File dbFile = new File(dbDir, "StoredEquations.db");
+        String jdbcUrl = "jdbc:sqlite:" + dbFile.getAbsolutePath().replace("\\", "/");
+
         try {
             // Create and/or connect to the database
             try (Connection conn = DriverManager.getConnection(jdbcUrl)) {
@@ -64,13 +48,20 @@ public class CreateDatabase extends AbstractMojo {
                         ")";
                     
                     stmt.execute(createTableSQL);
-                    getLog().info("Database tables initialized successfully");
                 }
             }
         } catch (SQLException e) {
             throw new MojoExecutionException("Failed to initialize database: " + e.getMessage(), e);
         }
         
-        getLog().info("Database initialization completed successfully");
     }
 }
+
+
+
+
+
+
+
+
+
