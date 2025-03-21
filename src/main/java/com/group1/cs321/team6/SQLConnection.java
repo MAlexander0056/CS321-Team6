@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.group1.cs321.team6;
+import com.group1.cs321.team6.UserInput;
 
 /**
  *
@@ -15,27 +16,41 @@ package com.group1.cs321.team6;
  *  Member variables: Each user preset. Sends to database
  */
 public class SQLConnection {
+    // URL can assigned whenever we figure that out.
     private static final String URL = null;
-    private static final String USER = null;
-    private static final String PASSWORD = null;
+    private UserInput user;
+    
+    SQLConnection (UserInput someUser) {
+        this.user = someUser;
+    }
+    
+    /**
+     * 
+     * @return UserInput
+     *  This method is public, as SQLExecution will need access to a UserInput instance
+     *      if it is to INSERT a user.
+     */
+    public UserInput getUser () {
+        return this.user;
+    }
     
     /**
      * 
      *  Attempt to find user
      */
-    public void DatabaseConnection () {
-        
+    private void databaseConnection () {
+    
     }
     
     /**
      * 
      *  Simple getter method for connectivity state
      */
-    public void getConnection() {
+    private void getConnection() {
         
     }
    
-    public void closeConnection() {
+    private void closeConnection() {
         
     }
 }
