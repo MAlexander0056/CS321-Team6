@@ -13,7 +13,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Maven plugin to initialize the SQLite database for equation storage.
+ * Maven plugin to initialize the MySQL database for equation storage.
  */
 @Mojo(name = "initialize-database", defaultPhase = LifecyclePhase.INITIALIZE)
 public class CreateDatabase extends AbstractMojo {
@@ -29,7 +29,7 @@ public class CreateDatabase extends AbstractMojo {
         
         // jdbc needs \ and not / it will break if replace isnt there
         File dbFile = new File(dbDir, "StoredEquations.db");
-        String jdbcUrl = "jdbc:sqlite:" + dbFile.getAbsolutePath().replace("\\", "/");
+        String jdbcUrl = "jdbc:mysql:" + dbFile.getAbsolutePath().replace("\\", "/");
 
         try {
             // Create and/or connect to the database
