@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.Group1</groupId>
   <artifactId>CS321-Team6</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
@@ -36,6 +36,21 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.14.0</version>
       </plugin>
+	  <!-- Database initialization plugin -->
+       <plugin>
+        <groupId>com.Group1</groupId>
+        <artifactId>InitDB</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <executions>
+            <execution>
+               <id>init-db</id>
+                     <goals>
+                            <goal>initialize-database</goal>
+                        </goals>
+                        <phase>initialize</phase> <!-- This runs before compile -->
+                    </execution>
+                </executions>
+            </plugin>
     </plugins>
   </build>
   <modules>
