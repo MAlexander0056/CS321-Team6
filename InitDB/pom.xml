@@ -6,19 +6,16 @@
     <groupId>com.Group1</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-
   <groupId>com.Group1</groupId>
   <artifactId>InitDB</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-
   <name>InitDB</name>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>21</maven.compiler.release>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.xerial</groupId>
@@ -34,28 +31,23 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>3.9.9</version> <!-- Use the same version as maven-plugin-annotations -->
+      <version>3.9.9</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
+      <version>3.9.9</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
   <build>
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.13.1</version>
-          <configuration>
-            <goalPrefix>initdb</goalPrefix>
-          </configuration>
-        </plugin>
-        <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-        <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.4.1</version>
         </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.1</version>
@@ -80,7 +72,6 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>3.1.4</version>
         </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
           <version>4.0.0-M16</version>
@@ -95,6 +86,35 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.13.1</version>
+        <configuration>
+          <goalPrefix>initdb</goalPrefix>
+          <skipErrorNoDescriptorsFound>false</skipErrorNoDescriptorsFound>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default-descriptor</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>descriptor</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>help-descriptor</id>
+            <goals>
+              <goal>helpmojo</goal>
+            </goals>
+            <phase>process-classes</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.14.0</version>
+        <configuration>
+          <release>21</release>
+        </configuration>
       </plugin>
     </plugins>
   </build>
