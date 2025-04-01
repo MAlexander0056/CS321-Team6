@@ -29,41 +29,34 @@
     </dependency>
     <!-- Add other dependencies here -->
   </dependencies>
-  <build>
-    <plugins>
-      <!-- Compiler plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.14.0</version>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+	  <plugins>
+		<!-- InitDB plugin -->
+		<plugin>
+		  <groupId>com.Group1</groupId>
+		  <artifactId>InitDB</artifactId>
+		  <version>1.0.0-SNAPSHOT</version>
+		  <executions>
+			<execution>
+			  <goals>
+				<goal>initialize-database</goal>
+			  </goals>
+			  <phase>initialize</phase>
+			</execution>
+		  </executions>
+		</plugin>
+		
+		<!-- Compiler plugin -->
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-compiler-plugin</artifactId>
+		  <version>3.14.0</version>
+		</plugin>
+	  </plugins>
+	</build>
+  
   <modules>
     <module>InitDB</module>
   </modules>
   
-  <!-- Profile for running the database initialization separately -->
-  <profiles>
-    <profile>
-      <id>run-db-init</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.Group1</groupId>
-            <artifactId>InitDB</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>initialize-database</goal>
-                </goals>
-                <phase>initialize</phase>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
