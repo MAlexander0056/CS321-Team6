@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.group1.cs321.team6;
 
 import java.util.ArrayList;
@@ -13,7 +9,10 @@ import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
-public class EulersMethod {
+/**
+ * A class that implements Euler's method for numerical integration of ODEs.
+ */
+public class EulersMethod implements Integrator {
     // Member variables
     private final String equation;         // ODE right-hand side, e.g., "x + y"
     private final double x0;               // Initial value of independent variable (x)
@@ -46,6 +45,7 @@ public class EulersMethod {
     /**
      * Performs the Euler integration and populates the solution lists.
      */
+    @Override
     public void integrate() {
         // Initialize solution lists
         xValues = new ArrayList<>();
@@ -87,6 +87,7 @@ public class EulersMethod {
      *
      * @return List of x values
      */
+    @Override
     public List<Double> getXValues() {
         return xValues;
     }
@@ -96,24 +97,9 @@ public class EulersMethod {
      *
      * @return List of y values
      */
+    @Override
     public List<Double> getYValues() {
         return yValues;
-    }
-
-    /**
-     * Static method to execute the entire workflow: create integrator, perform Euler integration, and return y-values.
-     *
-     * @param equation The ODE right-hand side as a string (e.g., "x + y" for dy/dx = x + y)
-     * @param x0       Initial x value
-     * @param y0       Initial y value
-     * @param xEnd     Final x value
-     * @param h        Step size
-     * @return List of y values from the solution
-     */
-    public static List<Double> executeSolver(String equation, double x0, double y0, double xEnd, double h) {
-        EulersMethod integrator = new EulersMethod(equation, x0, y0, xEnd, h);
-        integrator.integrate();
-        return integrator.getYValues();
     }
 
     /**
