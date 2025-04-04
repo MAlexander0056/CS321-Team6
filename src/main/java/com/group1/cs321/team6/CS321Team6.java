@@ -24,6 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class CS321Team6 {
 
     public static void main(String[] args) {
+        initDB();
         HashMap<String, Object> presets = new HashMap();
 
         presets.put("Equation", "x+y");
@@ -92,5 +93,6 @@ public class CS321Team6 {
         ChartFrame frame = new ChartFrame("Integration Results", chart);
         frame.pack();
         frame.setVisible(true);
+
     }
 }
