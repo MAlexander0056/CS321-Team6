@@ -1,23 +1,136 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.group1.cs321.team6;
 
-import org.apache.commons.math4.legacy.ode.FirstOrderIntegrator;
-import org.apache.commons.math4.legacy.ode.nonstiff.EulerIntegrator;
+import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.math4.legacy.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.legacy.ode.nonstiff.EulerIntegrator;
+import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
+import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
 
-public class EulersMethod extends AbstractODESolver {
+public class EulersMethod {
+    // Member variables
+    private final String equation;         // ODE right-hand side, e.g., "x + y"
+    private final double x0;               // Initial value of independent variable (x)
+    private final double y0;               // Initial value of dependent variable (y)
+    private final double xEnd;             // End value of independent variable (x)
+    private final double h;                // Step size for integration
+    private final Expression expression;   // Parsed mathematical expression
+    private List<Double> xValues;          // Stores x values of the solution
+    private List<Double> yValues;          // Stores y values of the solution
+
+    /**
+     * Constructor to initialize the integrator with the ODE and parameters.
+     *
+     * @param equation The ODE right-hand side as a string (e.g., "x + y" for dy/dx = x + y)
+     * @param x0       Initial x value
+     * @param y0       Initial y value
+     * @param xEnd     Final x value where integration stops
+     * @param h        Step size for the Euler method
+     */
     public EulersMethod(String equation, double x0, double y0, double xEnd, double h) {
-        super(equation, x0, y0, xEnd, h);
+        this.equation = equation;
+        this.x0 = x0;
+        this.y0 = y0;
+        this.xEnd = xEnd;
+        this.h = h;
+        // Build the expression with variables "x" and "y"
+        this.expression = new ExpressionBuilder(equation).variables("x", "y").build();
     }
 
-    @Override
-    protected FirstOrderIntegrator createIntegrator() {
-        return new EulerIntegrator(h);
+    /**
+     * Performs the Euler integration and populates the solution lists.
+     */
+    public void integrate() {
+        // Initialize solution lists
+        xValues = new ArrayList<>();
+        yValues = new ArrayList<>();
+
+        // Define the ODE using an inner class
+        FirstOrderDifferentialEquations ode = new ODE();
+
+        // Create the Euler integrator with the specified step size
+        EulerIntegrator integrator = new EulerIntegrator(h);
+
+        // Add a step handler to collect solution points
+        integrator.addStepHandler(new StepHandler() {
+            @Override
+            public void init(double t0, double[] y0, double t) {
+                // Add initial point
+                xValues.add(t0);
+                yValues.add(y0[0]);
+            }
+
+            @Override
+            public void handleStep(StepInterpolator interpolator, boolean isLast) {
+                // Add the current step's point
+                double t = interpolator.getCurrentTime();
+                double[] y = interpolator.getInterpolatedState();
+                xValues.add(t);
+                yValues.add(y[0]);
+            }
+        });
+
+        // Set up initial conditions and perform integration
+        double[] yStart = new double[]{y0};
+        double[] yEnd = new double[1];
+        integrator.integrate(ode, x0, yStart, xEnd, yEnd);
     }
 
-    // Optionally, keep the static method for backward compatibility
+    /**
+     * Returns the list of x values from the solution.
+     *
+     * @return List of x values
+     */
+    public List<Double> getXValues() {
+        return xValues;
+    }
+
+    /**
+     * Returns the list of y values from the solution.
+     *
+     * @return List of y values
+     */
+    public List<Double> getYValues() {
+        return yValues;
+    }
+
+    /**
+     * Static method to execute the entire workflow: create integrator, perform Euler integration, and return y-values.
+     *
+     * @param equation The ODE right-hand side as a string (e.g., "x + y" for dy/dx = x + y)
+     * @param x0       Initial x value
+     * @param y0       Initial y value
+     * @param xEnd     Final x value
+     * @param h        Step size
+     * @return List of y values from the solution
+     */
     public static List<Double> executeSolver(String equation, double x0, double y0, double xEnd, double h) {
         EulersMethod integrator = new EulersMethod(equation, x0, y0, xEnd, h);
         integrator.integrate();
         return integrator.getYValues();
+    }
+
+    /**
+     * Private inner class implementing the ODE dy/dx = f(x, y).
+     */
+    private class ODE implements FirstOrderDifferentialEquations {
+        @Override
+        public int getDimension() {
+            return 1; // Single first-order ODE
+        }
+
+        @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
+            // Set variables in the expression and evaluate
+            expression.setVariable("x", t);
+            expression.setVariable("y", y[0]);
+            yDot[0] = expression.evaluate();
+        }
     }
 }
