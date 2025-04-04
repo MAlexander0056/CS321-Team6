@@ -3,7 +3,7 @@
  */
 
 package com.group1.cs321.team6;
-
+import static com.group1.cs321.team6.CreateDatabase.initDB;
 /**
  *
  * @author Admin
@@ -16,6 +16,9 @@ public class CS321Team6 {
      * @param args
      */
     public static void main(String[] args) {
+      uptodate-abstract-solver-impl
         
+        initDB();
+      main
     }
 }
