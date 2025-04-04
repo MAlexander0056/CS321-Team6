@@ -1,4 +1,5 @@
 package com.group1.cs321.team6;
+
 import org.apache.commons.math4.legacy.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math4.legacy.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
@@ -8,7 +9,10 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RungeKuttaOrder4 {
+/**
+ * A class that implements the fourth-order Runge-Kutta method for numerical integration of ODEs.
+ */
+public class RungeKuttaOrder4 implements Integrator {
     // Instance variables
     private final String equation;         // ODE right-hand side (e.g., "x + y")
     private final double x0;               // Initial x value
@@ -41,6 +45,7 @@ public class RungeKuttaOrder4 {
     /**
      * Performs the fourth-order Runge-Kutta integration.
      */
+    @Override
     public void integrate() {
         // Initialize lists to store solution points
         xValues = new ArrayList<>();
@@ -78,10 +83,21 @@ public class RungeKuttaOrder4 {
     }
 
     /**
+     * Gets the list of x values from the solution.
+     *
+     * @return List of x values
+     */
+    @Override
+    public List<Double> getXValues() {
+        return xValues;
+    }
+
+    /**
      * Gets the list of y values from the solution.
      *
      * @return List of y values
      */
+    @Override
     public List<Double> getYValues() {
         return yValues;
     }
@@ -102,26 +118,5 @@ public class RungeKuttaOrder4 {
             expression.setVariable("y", y[0]);
             yDot[0] = expression.evaluate();
         }
-    }
-
-    /**
-     * Static method to execute the entire workflow: create integrator, perform integration, and return y-values.
-     *
-     * @param equation The ODE right-hand side as a string
-     * @param x0       Initial x value
-     * @param y0       Initial y value
-     * @param xEnd     Final x value
-     * @param h        Step size
-     * @return List of y values from the solution
-     */
-    public static List<Double> executeSolver(String equation, double x0, double y0, double xEnd, double h) {
-        // Step 1: Create a dynamic object (instance) using the constructor
-        RungeKuttaOrder4 integrator = new RungeKuttaOrder4(equation, x0, y0, xEnd, h);
-        
-        // Step 2: Execute the integration
-        integrator.integrate();
-        
-        // Step 3: Return the y-values
-        return integrator.getYValues();
     }
 }

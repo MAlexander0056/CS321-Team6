@@ -27,9 +27,9 @@ public class UserInput {
     private static String username = null;
     private static String password = null;
     
-    private HashMap<String, Integer> presets;
+    private HashMap<String, Object> presets;
     
-    UserInput (HashMap<String, Integer> presetsInput, String usernameInput, String passwordInput) {
+    UserInput (HashMap<String, Object> presetsInput, String usernameInput, String passwordInput) {
         this.presets = presetsInput;
         this.username = usernameInput;
         this.password = passwordInput;
@@ -45,6 +45,10 @@ public class UserInput {
     
     public String getPassword () {
         return this.password;
+    }
+    
+    public HashMap<String, Object> getPresets() {
+        return this.presets;
     }
     
     /**

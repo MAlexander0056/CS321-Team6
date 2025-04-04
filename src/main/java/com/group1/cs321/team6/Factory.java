@@ -1,21 +1,16 @@
 package com.group1.cs321.team6;
 
-import com.group1.cs321.team6.EulersMethod;
-import com.group1.cs321.team6.RungeKuttaOrder4;
-import com.group1.cs321.team6.SQLExecution;
-import com.group1.cs321.team6.UserInput;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 /**
- * A factory class that performs numerical integration using Euler's method and Runge-Kutta order 4
- * based on parameters provided in a HashMap.
+ * A factory class that creates numerical integrator objects based on the specified method.
  */
 public class Factory {
     // Member variables
-    private HashMap<String, Object> givenParameters; // Adjusted to Object to store String and Integer
-    private UserInput userToRetrieve;
+    private final HashMap<String, Object> givenParameters; // Parameters for integration
+    private final UserInput userToRetrieve;               // User input for additional retrieval
 
     /**
      * Constructor to initialize the factory with parameters and user input.
@@ -29,39 +24,53 @@ public class Factory {
     }
 
     /**
-     * Performs numerical integration if all required parameters are present with non-null values.
-     * Returns a list of lists containing y-values from Euler's method and Runge-Kutta order 4.
+     * Creates a list of Integrator objects based on the specified methods.
      *
-     * @return A List<List<Double>> with two inner lists: y-values from Euler's method and Runge-Kutta order 4,
-     *         or an empty list if required parameters are missing or null
+     * @param methodNames The names of the integration methods to use (e.g., "Euler", "RK4")
+     * @return A List of Integrator objects
+     * @throws IllegalArgumentException if required parameters are missing or invalid
      */
-    public HashMap<String, List<Double>> performIntegration() {
+    public List<Integrator> createIntegrators(List<String> methodNames) {
         // Define the required keys
         String[] requiredKeys = {"Equation", "x_0", "y_0", "xEnd", "h"};
 
         // Check if all required keys are present with non-null values
         for (String key : requiredKeys) {
             if (!givenParameters.containsKey(key) || givenParameters.get(key) == null) {
-                return new HashMap<>(); // Return empty HashMap if any key is missing or null
+                throw new IllegalArgumentException("Missing or null parameter: " + key);
             }
         }
 
         // Retrieve parameters from the HashMap
         String equation = (String) givenParameters.get("Equation");
-        double x0 = ((Integer) givenParameters.get("x_0")).doubleValue();
-        double y0 = ((Integer) givenParameters.get("y_0")).doubleValue();
-        double xEnd = ((Integer) givenParameters.get("xEnd")).doubleValue();
-        double h = ((Integer) givenParameters.get("h")).doubleValue();
+        double x0 = ((Number) givenParameters.get("x_0")).doubleValue();
+        double y0 = ((Number) givenParameters.get("y_0")).doubleValue();
+        double xEnd = ((Number) givenParameters.get("xEnd")).doubleValue();
+        double h = ((Number) givenParameters.get("h")).doubleValue();
 
-        // Perform integrations using Euler's method and Runge-Kutta order 4
-        List<Double> yValsEuler = EulersMethod.executeSolver(equation, x0, y0, xEnd, h);
-        List<Double> yValsRK4 = RungeKuttaOrder4.executeSolver(equation, x0, y0, xEnd, h);
+        // Validate parameters
+        if (h <= 0) {
+            throw new IllegalArgumentException("Step size h must be positive");
+        }
+        if (xEnd <= x0) {
+            throw new IllegalArgumentException("xEnd must be greater than x_0");
+        }
 
-        // Create and populate the HashMap
-        HashMap<String, List<Double>> result = new HashMap<>();
-        result.put("Euler's method", yValsEuler);
-        result.put("RK4", yValsRK4);
+        // Create the list of integrators
+        List<Integrator> integrators = new ArrayList<>();
+        for (String method : methodNames) {
+            switch (method.toLowerCase()) {
+                case "euler":
+                    integrators.add(new EulersMethod(equation, x0, y0, xEnd, h));
+                    break;
+                case "rk4":
+                    integrators.add(new RungeKuttaOrder4(equation, x0, y0, xEnd, h));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown integration method: " + method);
+            }
+        }
 
-        return result;
+        return integrators;
     }
 }

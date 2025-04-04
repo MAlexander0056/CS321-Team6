@@ -25,6 +25,12 @@
             <artifactId>commons-math4-legacy</artifactId>
             <version>4.0-beta1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.4</version>
+        </dependency>
         
         <dependency>
             <groupId>net.objecthunter</groupId>
