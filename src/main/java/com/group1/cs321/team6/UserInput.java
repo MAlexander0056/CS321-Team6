@@ -24,8 +24,6 @@ public class UserInput {
      */
     // Potential advantage of HashMaps: They allow for null values, which should prove more useful than maps.
     
-    private static String username = null;
-    private static String password = null;
     
     private HashMap<String, Object> presets;
     
