@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.group1.cs321.team6;
-import com.group1.cs321.team6.SQLExecution;
 import java.util.HashMap;
+
 /**
  *
  * @author cates
@@ -23,6 +23,8 @@ public class UserInput {
      */
     // Potential advantage of HashMaps: They allow for null values, which should prove more useful than maps.
     
+    private static String username = null;
+    private static String password = null;
     
     private HashMap<String, Object> presets;
     
