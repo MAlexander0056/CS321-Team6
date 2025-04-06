@@ -5,7 +5,6 @@
 package com.group1.cs321.team6;
 import com.group1.cs321.team6.SQLExecution;
 import java.util.HashMap;
-
 /**
  *
  * @author cates

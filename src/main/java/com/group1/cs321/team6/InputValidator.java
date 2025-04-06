@@ -13,8 +13,9 @@ import java.util.regex.Pattern;
 public class InputValidator {
     
     public static Boolean checkIfValid(Object field){
+        
         Boolean pass = false;
-    //    TODO swap with actual restrictions        
+        //TODO swap with actual restrictions        
         final String[] patterns = {
                 "quick brown", // Matches the phrase "quick brown"
                 "\\d+",         // Matches one or more digits
@@ -28,7 +29,5 @@ public class InputValidator {
          pass = matcher.find();
         }
         return pass;
-      
-        
     };
 }
