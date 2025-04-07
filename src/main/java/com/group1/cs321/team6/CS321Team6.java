@@ -25,13 +25,11 @@ public class CS321Team6 {
 
     public static void main(String[] args) {
         initDB();
-        HashMap<String, Object> presets = new HashMap();
-
-        presets.put("Equation", "x+y");
-        presets.put("x_0", 1);
-        presets.put("y_0", 1);
-        presets.put("xEnd", 10);
-        presets.put("h", 1);
+        
+        // Open the main window that accepts the user's inputs and returns
+        // a hash map
+        Gui mainWindow = new Gui();        
+        HashMap<String, Object> presets = mainWindow.CreateMainWindow();
         
         UserInput user = new UserInput(presets, "Cates", "password");
         // Some validation then happens with presets
