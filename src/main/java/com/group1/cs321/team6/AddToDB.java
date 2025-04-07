@@ -31,7 +31,7 @@ public class AddToDB {
                 pass = false;
             }
             if(pass){
-                
+                // TODO add logic try with resources to add all vals to row
             }
         }
         return pass;
