@@ -2,32 +2,60 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.group1.cs321.team6;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 /**
  *
  * @author Michael A
  */
+package com.group1.cs321.team6;
+
+import java.util.HashMap;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public class InputValidator {
-    
-    public static Boolean checkIfValid(Object field){
-        
-        Boolean pass = false;
-        //TODO swap with actual restrictions        
+    private final HashMap<String, Object> inputMap;
+
+    public InputValidator(HashMap<String, Object> inputMap) {
+        this.inputMap = new HashMap<>(inputMap);
+    }
+
+    /*
+      This checks each individual input against pre-set regex patterns.
+      Returns true if the value matches at least one pattern.
+     */
+    private Boolean checkValue(String key,Object field) {
+                
+        String input = String.valueOf(field);
+
         final String[] patterns = {
-                "quick brown", // Matches the phrase "quick brown"
-                "\\d+",         // Matches one or more digits
-                "[a-z]+"        // Matches one or more lowercase letters
+            "quick brown",  // Matches "quick brown"
+            "\\d+",         // Matches digits
+            "[a-z]+",       // Matches lowercase letters
+            "^$"            // Matches empty strings (optional)
         };
-        
-        for(String patternString : patterns){
-         Pattern pattern = Pattern.compile(patternString);
-         Matcher matcher = pattern.matcher((String)field);
-         
-         pass = matcher.find();
+
+        for (String patternString : patterns) {
+            Matcher matcher = Pattern.compile(patternString).matcher(input);
+            if (matcher.find()) {
+                return true; 
+            }
         }
-        return pass;
-    };
+        return false; 
+    }
+
+    /**
+     * Iterates through map and returns false if any values fail.
+     * Passes only if ALL values pass validation.
+     */
+    public Boolean checkInput() {
+        for (Object input : inputMap.values()) {
+            if (!checkValue(input)) {
+                return false; 
+            }
+        }
+        return true;
+    }
 }
+ 
+
