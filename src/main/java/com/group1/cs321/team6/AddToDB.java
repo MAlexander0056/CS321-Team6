@@ -62,56 +62,57 @@ public class AddToDB {
     }
     
     // ****************************************************************************************
-    public static void main(String[] args) {
-    HashMap<String, Object> sampleData = new HashMap<>();
-    sampleData.put("equation", "y_prime = t^2 + 3y");  // Removed special characters
-    sampleData.put("t0", 1.0);                       // String for validation
-    sampleData.put("y0", 1.0);                       // String for validation
-    sampleData.put("tEnd", 5.0);                     // String for validation
-    sampleData.put("nSteps", 100);                   // String for validation
-    sampleData.put("minStep", 0.01);                 // String for validation
-    sampleData.put("maxStep", 1.0);                  // String for validation
-
-    AddToDB addToDB = new AddToDB(sampleData);
-    
-    try {
-        // Test insertion
-        boolean success = addToDB.inputtingVals();
-        System.out.println(success ? "Insert successful!" : "Insert failed!");
-
-        // Add verification section
-        System.out.println("\nVerifying database contents:");
-        try (Connection conn = DriverManager.getConnection(JDBC_URL);
-             Statement stmt = conn.createStatement()) {
-            
-            // Print all tables (debugging)
-            ResultSet tables = stmt.executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
-            while (tables.next()) {
-                System.out.println("Found table: " + tables.getString("name"));
-            }
-
-            // Print equations table contents
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Equations");
-            ResultSetMetaData meta = rs.getMetaData();
-            
-            // Print column headers
-            for (int i = 1; i <= meta.getColumnCount(); i++) {
-                System.out.print(meta.getColumnName(i) + "\t");
-            }
-            System.out.println();
-            
-            // Print rows
-            while (rs.next()) {
-                for (int i = 1; i <= meta.getColumnCount(); i++) {
-                    System.out.print(rs.getString(i) + "\t");
-                }
-                System.out.println();
-            }
-        }
-    } catch (SQLException e) {
-        System.err.println("Database error: " + e.getMessage());
-    }
-}
+//    public static void main(String[] args) {
+//    HashMap<String, Object> sampleData = new HashMap<>();
+//    sampleData.put("equation", "y_prime = t^2 + 3y");  // Removed special characters
+//    sampleData.put("t0", 1.0);                       // String for validation
+//    sampleData.put("y0", 1.0);                       // String for validation
+//    sampleData.put("tEnd", 5.0);                     // String for validation
+//    sampleData.put("nSteps", 100);                   // String for validation
+//    sampleData.put("minStep", 0.01);                 // String for validation
+//    sampleData.put("maxStep", 1.0);                  // String for validation
+//
+//    AddToDB addToDB = new AddToDB(sampleData);
+//    
+//    try {
+//        // Test insertion
+//        boolean success = addToDB.inputtingVals();
+//        System.out.println(success ? "Insert successful!" : "Insert failed!");
+//
+//        // Add verification section
+//        System.out.println("\nVerifying database contents:");
+//        try (Connection conn = DriverManager.getConnection(JDBC_URL);
+//             Statement stmt = conn.createStatement()) {
+//            
+//            // Print all tables (debugging)
+//            ResultSet tables = stmt.executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
+//            while (tables.next()) {
+//                System.out.println("Found table: " + tables.getString("name"));
+//            }
+//
+//            // Print equations table contents
+//            ResultSet rs = stmt.executeQuery("SELECT * FROM Equations");
+//            ResultSetMetaData meta = rs.getMetaData();
+//            
+//            // Print column headers
+//            for (int i = 1; i <= meta.getColumnCount(); i++) {
+//                System.out.print(meta.getColumnName(i) + "\t");
+//            }
+//            System.out.println();
+//            
+//            // Print rows
+//            while (rs.next()) {
+//                for (int i = 1; i <= meta.getColumnCount(); i++) {
+//                    System.out.print(rs.getString(i) + "\t");
+//                }
+//                System.out.println();
+//            }
+//        }
+//    } catch (SQLException e) {
+//        System.err.println("Database error: " + e.getMessage());
+//    }
+//}
+// *********************************************************************************************************************
 }
 
 
