@@ -28,7 +28,12 @@ public class CreateDatabase {
                         "CREATE TABLE IF NOT EXISTS Equations (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "equation TEXT NOT NULL, " +
-                        "result TEXT, " +
+                        "t0 REAL NOT NULL, " +
+                        "y0 REAL, " +
+                        "tEnd REAL NOT NULL, " +
+                        "nSteps INTEGER, " +
+                        "minStep REAL, " +
+                        "maxStep REAL, " +
                         "saved_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                         ")";
                     stmt.execute(createTableSQL);
