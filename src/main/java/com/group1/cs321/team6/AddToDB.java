@@ -64,7 +64,6 @@ public class AddToDB {
     // ****************************************************************************************
     public static void main(String[] args) {
     HashMap<String, Object> sampleData = new HashMap<>();
-    sampleData.put("id", 2);
     sampleData.put("equation", "y_prime = t^2 + 3y");  // Removed special characters
     sampleData.put("t0", 1.0);                       // String for validation
     sampleData.put("y0", 1.0);                       // String for validation
