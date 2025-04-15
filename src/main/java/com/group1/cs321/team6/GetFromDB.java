@@ -7,41 +7,65 @@ package com.group1.cs321.team6;
 import static com.group1.cs321.team6.DbConfig.JDBC_URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Michael A
  */
 public class GetFromDB {
+    public static HashMap<String, Object> getMostRecentEquation() throws SQLException {
+    String query = "SELECT * FROM Equations ORDER BY id DESC LIMIT 1";
+    
+    try (Connection conn = DriverManager.getConnection(JDBC_URL);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(query)) {
 
-    public HashMap<String, Object> getOneRow() {
-        HashMap<String, Object> singleRow; 
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        if (rs.next()) {
+            HashMap<String, Object> rowMap = new HashMap<>();
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = metaData.getColumnName(i);
+                Object value = rs.getObject(i);
+                rowMap.put(columnName, value);
+            }
+            return rowMap;
+        }
+        return null;
+    }
+    }
+
+    public static List<HashMap<String, Object>> getRecentEquations(int limit) throws SQLException {
+    List<HashMap<String, Object>> equations = new ArrayList<>();
+    String query = "SELECT * FROM Equations ORDER BY id DESC LIMIT ?";
+    
+    try (Connection conn = DriverManager.getConnection(JDBC_URL);
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
         
-        try {
-        System.out.println("\nVerifying database contents:");
-        try (Connection conn = DriverManager.getConnection(JDBC_URL);
-            Statement stmt = conn.createStatement()) {
+        pstmt.setInt(1, limit);  // Set the limit parameter
+        try (ResultSet rs = pstmt.executeQuery()) {
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
             
-            // Print equations table contents
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Equations");
-            ResultSetMetaData meta = rs.getMetaData();
-            
-            // Print rows
             while (rs.next()) {
-                for (int i = 1; i <= meta.getColumnCount(); i++) {
-                    System.out.print(rs.getString(i) + "\t");
+                HashMap<String, Object> rowMap = new HashMap<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    rowMap.put(metaData.getColumnName(i), rs.getObject(i));
                 }
-                System.out.println();
+                equations.add(rowMap);
             }
         }
-    } catch (SQLException e) {
-        System.err.println("Database error: " + e.getMessage());
     }
-    }
-    
+    return equations;
+}
+
 }
