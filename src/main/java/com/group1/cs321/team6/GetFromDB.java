@@ -20,6 +20,12 @@ import java.util.List;
  *
  * @author Michael A
  */
+
+/**
+ * 
+ * This class returns the most recent addition to the Database.
+ * Note this returns a hash map.
+ */
 public class GetFromDB {
     public static HashMap<String, Object> getMostRecentEquation() throws SQLException {
     String query = "SELECT * FROM Equations ORDER BY id DESC LIMIT 1";
@@ -44,6 +50,10 @@ public class GetFromDB {
     }
     }
 
+    /**
+     * This returns n number of rows from the database.
+     * Note this returns a list of hashmaps.
+     */
     public static List<HashMap<String, Object>> getRecentEquations(int limit) throws SQLException {
     List<HashMap<String, Object>> equations = new ArrayList<>();
     String query = "SELECT * FROM Equations ORDER BY id DESC LIMIT ?";
