@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.group1.cs321.team6;
-import static com.group1.cs321.team6.CreateDatabase.initDB;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
@@ -25,6 +19,19 @@ public class CS321Team6 {
 
     public static void main(String[] args) {
         initDB();
+
+// TODO Remove before submission. Exaple for bashforth
+//        HashMap<String, Object> presets = new HashMap<>();
+
+//        presets.put("Equation", "-y");
+//        presets.put("x_0", 0.0);
+//        presets.put("y_0", 1.0);
+//        presets.put("xEnd", 4.0);
+//        presets.put("h", 0.1);
+//        presets.put("nSteps", 5);
+//        presets.put("minStep", 0.01);
+//        presets.put("maxStep", 0.1);
+
         
         // Open the main window that accepts the user's inputs and returns
         // a hash map
@@ -32,49 +39,35 @@ public class CS321Team6 {
         HashMap<String, Object> presets = mainWindow.CreateMainWindow();
         
         UserInput user = new UserInput(presets, "Cates", "password");
-        // Some validation then happens with presets
-        
         HashMap<String, Object> validated_presets = user.getPresets();
-        
         Factory factory = new Factory(validated_presets, user);
-        
-        List<String> integrators_to_create = new ArrayList<>();
-        
-        integrators_to_create.add("euler");
-        integrators_to_create.add("rk4");
-        
-        List<Integrator> integrator_objects = factory.createIntegrators(integrators_to_create);
-        
+
         IntegrationRunner integration_runner = new IntegrationRunner(factory);
-        HashMap<String, List<Double>> result = new HashMap<>();
-        result = integration_runner.performIntegration(integrators_to_create);
         
+        HashMap<String, Pair<List<Double>, List<Double>>> result = integration_runner.performIntegration(factory.createIntegrators());
+
         for (String key : result.keySet()) {
-            List<Double> value = result.get(key);
-            System.out.println("Key: " + key + ", Value: " + value);
+            Pair<List<Double>, List<Double>> value = result.get(key);
+            System.out.println("Key: " + key + ", tValues: " + value.getFirst() + ", yValues: " + value.getSecond());
         }
-        
+
         // Create the graph
         plotResults(result, presets);
     }
-    
-    private static void plotResults(HashMap<String, List<Double>> result, HashMap<String, Object> presets) {
+
+    private static void plotResults(HashMap<String, Pair<List<Double>, List<Double>>> result, HashMap<String, Object> presets) {
         XYSeriesCollection dataset = new XYSeriesCollection();
-        
-        double x0 = ((Number) presets.get("x_0")).doubleValue();
-        double xEnd = ((Number) presets.get("xEnd")).doubleValue();
-        double h = ((Number) presets.get("h")).doubleValue();
 
         // For each integration method
         for (String method : result.keySet()) {
             XYSeries series = new XYSeries(method);
-            List<Double> yValues = result.get(method);
-            double x = x0;
-            
+            Pair<List<Double>, List<Double>> data = result.get(method);
+            List<Double> xValues = data.getFirst(); // tValues for Adams-Bashforth
+            List<Double> yValues = data.getSecond(); // yValues
+
             // Add points to the series
-            for (Double y : yValues) {
-                series.add(x, y);
-                x += h;
+            for (int i = 0; i < xValues.size() && i < yValues.size(); i++) {
+                series.add(xValues.get(i), yValues.get(i));
             }
             dataset.addSeries(series);
         }
@@ -82,7 +75,7 @@ public class CS321Team6 {
         // Create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
             "Numerical Integration Results: " + presets.get("Equation"), // Chart title
-            "x",                                                        // X-axis label
+            "t",                                                        // X-axis label (time)
             "y",                                                        // Y-axis label
             dataset                                                     // Data
         );
@@ -91,7 +84,10 @@ public class CS321Team6 {
         ChartFrame frame = new ChartFrame("Integration Results", chart);
         frame.pack();
         frame.setVisible(true);
+    }
 
+    // Assuming initDB() is defined elsewhere
+    private static void initDB() {
+        // Placeholder for your database initialization
     }
 }
-
