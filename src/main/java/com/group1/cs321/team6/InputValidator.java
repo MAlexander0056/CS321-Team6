@@ -12,7 +12,9 @@ package com.group1.cs321.team6;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
-
+/**
+* This class uses regex patterns to test inputted paramaters.  
+*/
 public class InputValidator {
     private final HashMap<String, Object> inputMap;
     private static final Logger logger = Logger.getLogger(InputValidator.class.getName());
