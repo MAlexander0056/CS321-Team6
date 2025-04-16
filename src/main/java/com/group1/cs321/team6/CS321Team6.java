@@ -9,22 +9,35 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import com.group1.cs321.team6.GetFromDB;
+/**
+ *
+ * @author Admin
+ */
 
 public class CS321Team6 {
 
     public static void main(String[] args) {
         initDB();
-        HashMap<String, Object> presets = new HashMap<>();
 
-        presets.put("Equation", "-y");
-        presets.put("x_0", 0.0);
-        presets.put("y_0", 1.0);
-        presets.put("xEnd", 4.0);
-        presets.put("h", 0.1);
+// TODO Remove before submission. Exaple for bashforth
+//        HashMap<String, Object> presets = new HashMap<>();
+
+//        presets.put("Equation", "-y");
+//        presets.put("x_0", 0.0);
+//        presets.put("y_0", 1.0);
+//        presets.put("xEnd", 4.0);
+//        presets.put("h", 0.1);
 //        presets.put("nSteps", 5);
 //        presets.put("minStep", 0.01);
 //        presets.put("maxStep", 0.1);
 
+        
+        // Open the main window that accepts the user's inputs and returns
+        // a hash map
+        Gui mainWindow = new Gui();        
+        HashMap<String, Object> presets = mainWindow.CreateMainWindow();
+        
         UserInput user = new UserInput(presets, "Cates", "password");
         HashMap<String, Object> validated_presets = user.getPresets();
         Factory factory = new Factory(validated_presets, user);
