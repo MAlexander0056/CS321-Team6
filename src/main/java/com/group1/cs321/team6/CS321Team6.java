@@ -35,8 +35,8 @@ public class CS321Team6 {
         
         // Open the main window that accepts the user's inputs and returns
         // a hash map
-        Gui mainWindow = new Gui();        
-        HashMap<String, Object> presets = mainWindow.CreateMainWindow();
+        Gui guiWindow = new Gui();        
+        HashMap<String, Object> presets = guiWindow.CreateMainWindow();
         
         UserInput user = new UserInput(presets, "Cates", "password");
         HashMap<String, Object> validated_presets = user.getPresets();
@@ -52,40 +52,9 @@ public class CS321Team6 {
         }
 
         // Create the graph
-        plotResults(result, presets);
+        guiWindow.CreateSolutionWindow(result, presets);
     }
-
-    private static void plotResults(HashMap<String, Pair<List<Double>, List<Double>>> result, HashMap<String, Object> presets) {
-        XYSeriesCollection dataset = new XYSeriesCollection();
-
-        // For each integration method
-        for (String method : result.keySet()) {
-            XYSeries series = new XYSeries(method);
-            Pair<List<Double>, List<Double>> data = result.get(method);
-            List<Double> xValues = data.getFirst(); // tValues for Adams-Bashforth
-            List<Double> yValues = data.getSecond(); // yValues
-
-            // Add points to the series
-            for (int i = 0; i < xValues.size() && i < yValues.size(); i++) {
-                series.add(xValues.get(i), yValues.get(i));
-            }
-            dataset.addSeries(series);
-        }
-
-        // Create the chart
-        JFreeChart chart = ChartFactory.createXYLineChart(
-            "Numerical Integration Results: " + presets.get("Equation"), // Chart title
-            "t",                                                        // X-axis label (time)
-            "y",                                                        // Y-axis label
-            dataset                                                     // Data
-        );
-
-        // Display the chart
-        ChartFrame frame = new ChartFrame("Integration Results", chart);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
+    
     // Assuming initDB() is defined elsewhere
     private static void initDB() {
         // Placeholder for your database initialization

@@ -112,11 +112,17 @@ public class Factory {
 
         if (hasStandardKeys) {
             // Add all standard fixed-step methods by default
-            methods.add("euler");
+            if (this.givenParameters.get("Euler").equals(true)) {
+                methods.add("euler");
+            }
+            if (this.givenParameters.get("RK4").equals(true)) {
             methods.add("rk4");
+            }
+            if (this.givenParameters.get("Midpoint").equals(true)) {
             methods.add("midpoint");
+            }
         }
-        if (hasBashforthKeys) {
+        if (hasBashforthKeys && this.givenParameters.get("Adam-Bashforth").equals(true)) {
             methods.add("adamsbashforth");
         }
         if (methods.isEmpty()) {
