@@ -43,6 +43,7 @@ public class Gui {
         JFrame frame = new JFrame("Team 6: ODE Solver");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
+
         
         // Create intro panel and text
         JPanel introPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -174,15 +175,14 @@ public class Gui {
         
         // Create an ActionListener to save user inputs and populate the HashMap
         saveButton.addActionListener(event -> {
+                // Verify that the user inputted appropriate values and throw
+                // an exception if not
                 try {
                     equation = equationField.getText();
                     initX = Double.parseDouble(initXField.getText());
                     initY = Double.parseDouble(initYField.getText());
                     finalX = Double.parseDouble(finalXField.getText());
                     step = Double.parseDouble(stepField.getText());
-                    nSteps = Integer.parseInt(nStepField.getText());
-                    minStep = Double.parseDouble(minStepField.getText());
-                    maxStep = Double.parseDouble(maxStepField.getText());
                     
                     eulerSelected = eulerBox.isSelected();
                     rk4Selected = rk4Box.isSelected();
@@ -198,6 +198,18 @@ public class Gui {
                             + "numeric values for each of the required and "
                             + "additional inputs, and ensure that at least "
                             + "one of the available integration methods is selected.");
+                }
+                
+                // If Adams-Bashforth parameters were not specified, then set
+                // them to 0
+                try {
+                    nSteps = Integer.parseInt(nStepField.getText());
+                    minStep = Double.parseDouble(minStepField.getText());
+                    maxStep = Double.parseDouble(maxStepField.getText());                    
+                } catch (NumberFormatException ex) {
+                    nSteps = 0;
+                    minStep = 0.0;
+                    maxStep = 0.0;
                 }
         });
         
@@ -219,6 +231,7 @@ public class Gui {
         frame.add(saveButton);
         
         frame.setVisible(true);
+        frame.pack();
                 
         // Wait until the user presses save
         while (!saved[0]) {

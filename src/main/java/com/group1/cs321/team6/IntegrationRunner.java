@@ -41,6 +41,7 @@ public class IntegrationRunner {
             case "MidpointMethod": return "Midpoint method";
             case "RungeKuttaOrder4": return "RK4";
             case "AdamBashforth": return "Adams-Bashforth Method";
+            case "ExactSolution": return "Exact Solution";
             default: return methodName;
         }
     }
