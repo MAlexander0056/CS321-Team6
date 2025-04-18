@@ -173,15 +173,14 @@ public class Gui {
         
         // Create an ActionListener to save user inputs and populate the HashMap
         saveButton.addActionListener(event -> {
+                // Verify that the user inputted appropriate values and throw
+                // an exception if not
                 try {
                     equation = equationField.getText();
                     initX = Double.parseDouble(initXField.getText());
                     initY = Double.parseDouble(initYField.getText());
                     finalX = Double.parseDouble(finalXField.getText());
                     step = Double.parseDouble(stepField.getText());
-//                    nSteps = Integer.parseInt(nStepField.getText());
-//                    minStep = Double.parseDouble(minStepField.getText());
-//                    maxStep = Double.parseDouble(maxStepField.getText());
                     
                     eulerSelected = eulerBox.isSelected();
                     rk4Selected = rk4Box.isSelected();
@@ -199,6 +198,8 @@ public class Gui {
                             + "one of the available integration methods is selected.");
                 }
                 
+                // If Adams-Bashforth parameters were not specified, then set
+                // them to 0
                 try {
                     nSteps = Integer.parseInt(nStepField.getText());
                     minStep = Double.parseDouble(minStepField.getText());
