@@ -1,0 +1,121 @@
+package com.group1.cs321.team6;
+
+import java.util.ArrayList;
+import java.util.List;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+import org.apache.commons.math4.legacy.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.legacy.ode.nonstiff.LutherIntegrator;
+import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
+import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
+
+/**
+ * A class that implements the Luther method, which is a sixth-order Runge-Kutta
+ * method, for numerical integration of ODEs.
+ */
+public class ExactSolution implements Integrator {
+    // Instance variables
+    private final String equation;         // ODE right-hand side (e.g., "x + y")
+    private final double x0;               // Initial x value
+    private final double y0;               // Initial y value
+    private final double xEnd;             // End x value
+    private final double h = 0.025;        // Fixed step size
+    private final Expression expression;   // Parsed ODE expression
+    private List<Double> xValues;          // Solution x points
+    private List<Double> yValues;          // Solution y points    
+    
+     /**
+     * Constructor to initialize the integrator.
+     *
+     * @param equation The ODE right-hand side as a string
+     * @param x0       Initial x value
+     * @param y0       Initial y value
+     * @param xEnd     Final x value
+     */
+    public ExactSolution (String equation, double x0, double y0, double xEnd) {
+        this.equation = equation;
+        this.x0 = x0;
+        this.y0 = y0;
+        this.xEnd = xEnd;
+        // Parse the equation string into an evaluable expression
+        this.expression = new ExpressionBuilder(equation).variables("x", "y").build();
+    }
+    
+    /**
+     * Performs the Luther integration
+     */
+    @Override
+    public void integrate() {
+        // Initialize lists to store solution points
+        xValues = new ArrayList<>();
+        yValues = new ArrayList<>();
+
+        // Define the ODE
+        FirstOrderDifferentialEquations ode = new ODE();
+
+        // Create the Luther integrator with fixed step size
+        LutherIntegrator integrator = new LutherIntegrator(h);
+
+        // Add a step handler to collect solution points at each step
+        integrator.addStepHandler(new StepHandler() {
+            @Override
+            public void init(double t0, double[] y0, double t) {
+                // Store initial point
+                xValues.add(t0);
+                yValues.add(y0[0]);
+            }
+
+            @Override
+            public void handleStep(StepInterpolator interpolator, boolean isLast) {
+                // Store the point at the end of the current step
+                double t = interpolator.getCurrentTime();
+                double[] y = interpolator.getInterpolatedState();
+                xValues.add(t);
+                yValues.add(y[0]);
+            }
+        });
+
+        // Set initial conditions and integrate
+        double[] yStart = new double[]{y0};
+        double[] yEnd = new double[1];
+        integrator.integrate(ode, x0, yStart, xEnd, yEnd);        
+    }
+   
+    /**
+    * Gets the list of x values from the solution.
+    *
+    * @return List of x values
+    */
+    @Override
+    public List<Double> getXValues() {
+        return xValues;
+    }
+
+    /**
+     * Gets the list of y values from the solution.
+     *
+     * @return List of y values
+     */
+    @Override
+    public List<Double> getYValues() {
+        return yValues;
+    }
+    
+        /**
+     * Inner class defining the ODE dy/dx = f(x, y).
+     */
+    private class ODE implements FirstOrderDifferentialEquations {
+        @Override
+        public int getDimension() {
+            return 1; // Single first-order ODE
+        }
+
+        @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
+            // Evaluate the ODE at the current (x, y)
+            expression.setVariable("x", t);
+            expression.setVariable("y", y[0]);
+            yDot[0] = expression.evaluate();
+        }
+    }    
+}
