@@ -27,13 +27,18 @@ public class CreateDatabase {
                     String createTableSQL =
                         "CREATE TABLE IF NOT EXISTS Equations (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "equation TEXT NOT NULL, " +
-                        "t0 REAL NOT NULL, " +
-                        "y0 REAL, " +
-                        "tEnd REAL NOT NULL, " +
+                        "Equation TEXT, " +
+                        "x_0 REAL, " +
+                        "y_0 REAL, " +
+                        "xEnd, " +
                         "nSteps INTEGER, " +
                         "minStep REAL, " +
                         "maxStep REAL, " +
+                        "h REAL, " +
+                        "Euler INTEGER, " +
+                        "RK4 INTEGER, " +
+                        "Midpoint REAL, " +
+                        "Adam_Bashforth INTEGER, " +
                         "saved_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                         ")";
                     stmt.execute(createTableSQL);
