@@ -87,7 +87,7 @@ public class Factory {
                     break;
                 case "adamsbashforth":
                     if (!bashforthKeysValid) {
-                        throw new IllegalArgumentException("Adams-Bashforth method requires: " + String.join(", ", bashforthKeys));
+                        throw new IllegalArgumentException("Adams_Bashforth method requires: " + String.join(", ", bashforthKeys));
                     }
                     int nSteps = ((Number) givenParameters.get("nSteps")).intValue();
                     double minStep = ((Number) givenParameters.get("minStep")).doubleValue();
@@ -132,7 +132,7 @@ public class Factory {
             methods.add("midpoint");
             }
         }
-        if (hasBashforthKeys && this.givenParameters.get("Adam-Bashforth").equals(true)) {
+        if (hasBashforthKeys && this.givenParameters.get("Adam_Bashforth").equals(true)) {
             methods.add("adamsbashforth");
         }
         if (methods.isEmpty()) {
