@@ -3,6 +3,7 @@ package com.group1.cs321.team6;
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.List;
 import org.jfree.chart.ChartFactory;
@@ -10,11 +11,6 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-/**
- * @author hopkins
- */
-
 
  /**
   * This class creates both of the windows required for our project: the 
@@ -46,7 +42,16 @@ public class Gui {
         // Create the main window
         JFrame frame = new JFrame("Team 6: ODE Solver");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 500);
+        frame.setSize(600, 600);
+        
+        // Create intro panel and text
+        JPanel introPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel introLabel = new JLabel(
+            "<html><body style='width:450px; font-family:Serif; font-size:18pt; "
+            + "font-style:italic; color:blue;'>Welcome to our Ordinary "
+            + "Differential Equation solver! Enter any non-stiff initial value "
+            + "problem, and choose from the available numerical methods "
+            + "to see a graph of the solution.</body></html>");
         
         // Create panels for each input
         JPanel equationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -60,25 +65,38 @@ public class Gui {
         JPanel methodPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         
         // Create labels for each input
-        JLabel equationLabel = new JLabel("Equation: ");
-        JLabel initXLabel = new JLabel("Initial X: ");
-        JLabel initYLabel = new JLabel("Initial Y: ");
-        JLabel finalXLabel = new JLabel("Final X: ");
-        JLabel stepLabel = new JLabel("Step Size: ");
-        JLabel nStepLabel = new JLabel("Number of Previous Steps: ");
-        JLabel minStepLabel = new JLabel("Minimum Step Size: ");
-        JLabel maxStepLabel = new JLabel("Maximum Step Size: ");
-        
-        // Create panels for section headers
-        JPanel requiredInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel extraInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel availMethodsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        
-        // Create labels for section headers
-        JLabel requiredInputsLabel = new JLabel("Required Inputs:");
-        JLabel extraInputsLabel = new JLabel("Additional Inputs for Adams-Bashforth:");
-        JLabel availMethodsLabel = new JLabel("Select at least one of the following methods:");
-        
+        JLabel equationLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Equation:</span></html>"
+        );
+        JLabel initXLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Initial X:</span></html>"
+            );
+        JLabel initYLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Initial Y:</span></html>"
+        );
+        JLabel finalXLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Final X:</span></html>"
+            );
+        JLabel stepLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Step Size:</span></html>"
+            );
+        JLabel nStepLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Number of Previous Steps:</span></html>"
+            );
+        JLabel minStepLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Minimum Step Size:</span></html>"
+            );
+        JLabel maxStepLabel = new JLabel(
+            "<html><span style='font-family:Monospaced; font-size:14pt; "
+            + "color:red;'>Maximum Step Size:</span></html>"
+            );
         
         // Create text fields for each input
         JTextField equationField = new JTextField("Enter your ODE.");
@@ -90,14 +108,37 @@ public class Gui {
         JTextField minStepField = new JTextField("Enter the minimum step size.");
         JTextField maxStepField = new JTextField("Enter the maximum step size.");
         
+        // Create panels for section headers
+        JPanel requiredInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel extraInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel availMethodsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        // Create labels for section headers 
+        JLabel requiredInputsLabel = new JLabel(
+            "<html><span style='font-family:SansSerif; font-size:16pt; "
+            + "font-weight:bold; color:#444444;'>Required Inputs:</span></html>");
+        JLabel extraInputsLabel = new JLabel(
+            "<html><span style='font-family:SansSerif; font-size:16pt; "
+            + "font-weight:bold; color:#444444;'>Additional Inputs for "
+            + "Adams-Bashforth:</span></html>");
+        JLabel availMethodsLabel = new JLabel(
+            "<html><span style='font-family:SansSerif; font-size:16pt; "
+            + "font-weight:bold; color:#444444;'>Select at least one of the "
+            + "following methods:</span></html>");
+        
         // Create check boxes for each solver option
-        JCheckBox eulerBox = new JCheckBox("Euler");
-        JCheckBox rk4Box = new JCheckBox("4th Order Runge-Kutta");
-        JCheckBox midBox = new JCheckBox("Midpoint");
-        JCheckBox adamBashBox = new JCheckBox("Adam-Bashforth");
+        JCheckBox eulerBox = new JCheckBox("<html><span style='font-family:Serif;"
+            + "font-size:14pt; color:#228B22;'>Euler</span></html>");
+        JCheckBox rk4Box = new JCheckBox("<html><span style='font-family:Serif;"
+            + "font-size:14pt; color:#228B22;'>4th Order Runge-Kutta</span></html>");
+        JCheckBox midBox = new JCheckBox("<html><span style='font-family:Serif;"
+            + "font-size:14pt; color:#228B22;'>Midpoint</span></html>");
+        JCheckBox adamBashBox = new JCheckBox("<html><span style='font-family:Serif;"
+            + "font-size:14pt; color:#228B22;'>Adam-Bashforth</span></html>");
         
         // Create a button to save user inputs
-        JButton saveButton = new JButton("Save & Plot");
+        JButton saveButton = new JButton("<html><u>Plot</u></html>");
+        saveButton.setMaximumSize(new Dimension(90, 30));
         saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Create a flag to signal when inputs are saved
@@ -121,9 +162,10 @@ public class Gui {
         maxStepPanel.add(maxStepLabel);
         maxStepPanel.add(maxStepField);
         methodPanel.add(eulerBox);
-        methodPanel.add(rk4Box);
         methodPanel.add(midBox);
+        methodPanel.add(rk4Box);
         methodPanel.add(adamBashBox);
+        introPanel.add(introLabel);
         
         // Adding labels to section header panels
         requiredInputsPanel.add(requiredInputsLabel);
@@ -161,6 +203,7 @@ public class Gui {
         
         // Add the panels and button to the window
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.add(introPanel);
         frame.add(requiredInputsPanel);
         frame.add(equationPanel);
         frame.add(initXPanel);
@@ -205,10 +248,13 @@ public class Gui {
     }    
     
     /**
-     * Window for solution page. Displays the graph of each method selected
+     * Window for solution page.Displays the graph of each method selected
      * by the user in the same window.
+     * 
+     * @param result Hash map containing the integration results
+     * @param presets Hash map containing the user's original inputs
      */
-    public void CreateSolutionWindow(HashMap<String, Pair<List<Double>, List<Double>>> result, HashMap<String, Object> presets){
+    void CreateSolutionWindow(HashMap<String, Pair<List<Double>, List<Double>>> result, HashMap<String, Object> presets){
         XYSeriesCollection dataset = new XYSeriesCollection();
 
         // For each integration method

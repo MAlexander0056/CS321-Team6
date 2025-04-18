@@ -95,6 +95,14 @@ public class Factory {
                     validateBashforthParams(nSteps, minStep, maxStep, x0, xEnd);
                     integrators.add(new AdamBashforth(equation, x0, y0, xEnd, nSteps, minStep, maxStep));
                     break;
+                case "exact":
+                    if (!standardKeysValid) {
+                        throw new IllegalArgumentException("Exact method requires: " + String.join(", ", requiredKeys));
+                    }
+                    double hExact = ((Number) givenParameters.get("h")).doubleValue();
+                    validateStandardParams(hExact, x0, xEnd);
+                    integrators.add(new ExactSolution(equation, x0, y0, xEnd));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown integration method: " + method);
             }
@@ -111,7 +119,9 @@ public class Factory {
         boolean hasBashforthKeys = checkKeys(new String[]{"Equation", "x_0", "y_0", "xEnd", "nSteps", "minStep", "maxStep"});
 
         if (hasStandardKeys) {
-            // Add all standard fixed-step methods by default
+            // Add all methods selected by the user. Only exact solution is graphed
+            // by default
+            methods.add("exact");
             if (this.givenParameters.get("Euler").equals(true)) {
                 methods.add("euler");
             }

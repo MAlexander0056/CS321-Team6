@@ -1,15 +1,7 @@
 package com.group1.cs321.team6;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import com.group1.cs321.team6.GetFromDB;
 /**
  *
  * @author Admin
