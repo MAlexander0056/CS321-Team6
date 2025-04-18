@@ -42,6 +42,8 @@ public class Gui {
         // Create the main window
         JFrame frame = new JFrame("Team 6: ODE Solver");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 600);
+
         
         // Create intro panel and text
         JPanel introPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
