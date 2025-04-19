@@ -8,7 +8,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * This class initializes the database with the correct tables. It will create 
+ * a folder in the users home directory if not present and create the db file there.
+ * This should always be run at the start of the program.
+ */
 public class CreateDatabase {
 
     public static void initDB() {

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
 /**
-* This class uses regex patterns to test inputted paramaters.  
+* This class uses regex patterns to test inputted paramaters.
 */
 public class InputValidator {
     private final HashMap<String, Object> inputMap;
@@ -30,7 +30,7 @@ public class InputValidator {
             case "Equation":
                 isValid = Pattern.matches(".*", input); // TODO Replace with actual
                 break;
-            case "t0","tEnd":
+            case "x_0","xEnd":
                 isValid = Pattern.matches(".*", input); // Any num including decimals
                 break;
             default:
