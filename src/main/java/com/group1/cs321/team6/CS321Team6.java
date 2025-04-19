@@ -2,6 +2,8 @@ package com.group1.cs321.team6;
 
 import java.util.HashMap;
 import java.util.List;
+import static com.group1.cs321.team6.CreateDatabase.initDB;
+import java.sql.SQLException;
 /**
  *
  * @author Admin
@@ -9,21 +11,8 @@ import java.util.List;
 
 public class CS321Team6 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         initDB();
-
-// TODO Remove before submission. Exaple for bashforth
-//        HashMap<String, Object> presets = new HashMap<>();
-
-//        presets.put("Equation", "-y");
-//        presets.put("x_0", 0.0);
-//        presets.put("y_0", 1.0);
-//        presets.put("xEnd", 4.0);
-//        presets.put("h", 0.1);
-//        presets.put("nSteps", 5);
-//        presets.put("minStep", 0.01);
-//        presets.put("maxStep", 0.1);
-
         
         // Open the main window that accepts the user's inputs and returns
         // a hash map
@@ -45,10 +34,5 @@ public class CS321Team6 {
 
         // Create the graph
         guiWindow.CreateSolutionWindow(result, presets);
-    }
-    
-    // Assuming initDB() is defined elsewhere
-    private static void initDB() {
-        // Placeholder for your database initialization
     }
 }
