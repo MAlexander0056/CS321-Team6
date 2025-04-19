@@ -11,6 +11,8 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import com.group1.cs321.team6.AddToDB;
+import java.sql.SQLException;
 
  /**
   * This class creates both of the windows required for our project: the 
@@ -38,7 +40,7 @@ public class Gui {
      * 
      * @return A hash map containing the user's inputs
      */
-    public HashMap<String, Object> CreateMainWindow(){
+    public HashMap<String, Object> CreateMainWindow() throws SQLException{
         // Create the main window
         JFrame frame = new JFrame("Team 6: ODE Solver");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -255,8 +257,11 @@ public class Gui {
         inputs.put("Euler", eulerSelected);
         inputs.put("RK4", rk4Selected);
         inputs.put("Midpoint", midpointSelected);
-        inputs.put("Adam-Bashforth", adamBashSelected);
-
+        inputs.put("Adam_Bashforth", adamBashSelected);
+        
+        AddToDB returnVal = new AddToDB(inputs);
+        returnVal.inputtingVals();
+        
         return inputs;
     }    
     

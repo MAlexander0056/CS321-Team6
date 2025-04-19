@@ -27,14 +27,14 @@ public class InputValidator {
         String input = String.valueOf(field);
         boolean isValid;
         switch (key) {
-            case "equation":
+            case "Equation":
                 isValid = Pattern.matches(".*", input); // TODO Replace with actual
                 break;
             case "t0","tEnd":
-                isValid = Pattern.matches("^-?\\d*\\.?\\d+$", input); // Any num including decimals
+                isValid = Pattern.matches(".*", input); // Any num including decimals
                 break;
             default:
-                return Pattern.matches("^-?\\d*\\.?\\d*$|^$", input); // Any num and empty
+                return Pattern.matches(".*", input); // Any num and empty
         }
         if(!isValid){
             logger.info("Validation failed for key: %s, input: %s".formatted(key, input));
