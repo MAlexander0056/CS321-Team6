@@ -22,11 +22,16 @@ import java.util.List;
  */
 
 /**
- * 
- * This class returns the most recent addition to the Database.
- * Note this returns a hash map.
+ * This class provides the functionality to retrieve previous configurations
+ * from the database.
  */
 public class GetFromDB {
+    /**
+     * This function returns the most recent addition to the database.
+     * 
+     * @return A hash map containing the most recent row from the database.
+     * @throws SQLException 
+     */
     public static HashMap<String, Object> getMostRecentEquation() throws SQLException {
     String query = "SELECT * FROM Equations ORDER BY id DESC LIMIT 1";
     
@@ -51,8 +56,12 @@ public class GetFromDB {
     }
 
     /**
-     * This returns n number of rows from the database.
-     * Note this returns a list of hashmaps.
+     * This function returns n number of rows from the database.
+     * 
+     * @param limit The number of rows to return from the database
+     * @return A list of hash maps containing the desired number of rows from
+     * the database.
+     * @throws SQLException
      */
     public static List<HashMap<String, Object>> getRecentEquations(int limit) throws SQLException {
     List<HashMap<String, Object>> equations = new ArrayList<>();
