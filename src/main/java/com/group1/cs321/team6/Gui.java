@@ -11,14 +11,15 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import com.group1.cs321.team6.AddToDB;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import static com.group1.cs321.team6.GetFromDB.getRecentEquations;
 
- /**
-  * This class creates both of the windows required for our project: the 
-  * introduction window that prompts the user for inputs, and the graph window
-  * that displays the solution to the inputted ODE 
-  */
+/**
+ * This class creates both of the windows required for our project: the 
+ * introduction window that prompts the user for inputs, and the graph window
+ * that displays the solution to the inputted ODE.
+ */
 public class Gui {
     
     private String equation = "";
@@ -39,13 +40,12 @@ public class Gui {
      * appropriate integrators.
      * 
      * @return A hash map containing the user's inputs
+     * @throws SQLException
      */
     public HashMap<String, Object> CreateMainWindow() throws SQLException{
         // Create the main window
         JFrame frame = new JFrame("Team 6: ODE Solver");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
-
         
         // Create intro panel and text
         JPanel introPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -56,6 +56,48 @@ public class Gui {
             + "problem, and choose from the available numerical methods "
             + "to see a graph of the solution.</body></html>");
         
+        // Create instruction panel and text
+        JPanel instructionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel instructionLabel = new JLabel(
+            "<html><body style='width:450px; font-family:Serif; font-size:18pt; "
+            + "font-style:italic; color:blue;'>Please select a previous configuration "
+            + "from the drop-down menu, or enter a new set of parameters "
+            + "into the required inputs text fields.</body></html>");
+        
+        // Create a border to separate the introduction from the input area
+        JSeparator border = new JSeparator(SwingConstants.HORIZONTAL);
+        border.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+        
+        // Create a list of hash maps containing the five most recent configurations
+        List<HashMap<String, Object>> previous = getRecentEquations(5);
+        
+        // Create an array of strings to represent previous configurations that
+        // will be added to the drop-down menu
+        ArrayList<String> configs = new ArrayList();
+        configs.add("-- Select a previous configuration --");
+            
+        // Create a string represenation of each previous configuration
+        for (HashMap<String, Object> prev : previous) {
+            if (prev != null) {
+                String eq = prev.get("Equation").toString();
+                String x0 = prev.get("x_0").toString();
+                String y0 = prev.get("y_0").toString();
+                String xEnd = prev.get("xEnd").toString();
+                String h = prev.get("h").toString();
+                String config = "dy/dx = " + eq + ", x_0 = " + x0 + ", y_0 = " 
+                        + y0 + ", xEnd = " + xEnd + ", h = " + h;
+                configs.add(config);
+            }
+        }
+        
+        // Create the drop down menu
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (String config : configs) {
+            model.addElement(config);
+        }
+
+        JComboBox<String> prevConfigs = new JComboBox<>(model);
+                
         // Create panels for each input
         JPanel equationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel initXPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -66,6 +108,12 @@ public class Gui {
         JPanel minStepPanel = new JPanel (new FlowLayout(FlowLayout.LEFT));
         JPanel maxStepPanel = new JPanel (new FlowLayout(FlowLayout.LEFT));
         JPanel methodPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        // Create panels for section headers
+        JPanel prevConfigsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel requiredInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel extraInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel availMethodsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         
         // Create labels for each input
         JLabel equationLabel = new JLabel(
@@ -101,6 +149,22 @@ public class Gui {
             + "color:red;'>Maximum Step Size:</span></html>"
             );
         
+        // Create labels for section headers 
+        JLabel prevConfigsLabel = new JLabel(
+            "<html><span style='font-family:SansSerif; font-size:16pt; "
+            + "font-weight:bold; color:#444444;'><u>Previous Configurations:</u></span></html>");
+        JLabel requiredInputsLabel = new JLabel(
+            "<html><span style='font-family:SansSerif; font-size:16pt; "
+            + "font-weight:bold; color:#444444;'><u>Required Inputs:</u></span></html>");
+        JLabel extraInputsLabel = new JLabel(
+            "<html><span style='font-family:SansSerif; font-size:16pt; "
+            + "font-weight:bold; color:#444444;'><u>Additional Inputs for "
+            + "Adams-Bashforth:</u></span></html>");
+        JLabel availMethodsLabel = new JLabel(
+            "<html><span style='font-family:SansSerif; font-size:16pt; "
+            + "font-weight:bold; color:#444444;'><u>Select at least one of the "
+            + "following methods:</u></span></html>");
+        
         // Create text fields for each input
         JTextField equationField = new JTextField("Enter your ODE.");
         JTextField initXField = new JTextField("Enter an initial X value.");
@@ -110,24 +174,6 @@ public class Gui {
         JTextField nStepField = new JTextField("Enter the number of previous steps to use.");
         JTextField minStepField = new JTextField("Enter the minimum step size.");
         JTextField maxStepField = new JTextField("Enter the maximum step size.");
-        
-        // Create panels for section headers
-        JPanel requiredInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel extraInputsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel availMethodsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        
-        // Create labels for section headers 
-        JLabel requiredInputsLabel = new JLabel(
-            "<html><span style='font-family:SansSerif; font-size:16pt; "
-            + "font-weight:bold; color:#444444;'>Required Inputs:</span></html>");
-        JLabel extraInputsLabel = new JLabel(
-            "<html><span style='font-family:SansSerif; font-size:16pt; "
-            + "font-weight:bold; color:#444444;'>Additional Inputs for "
-            + "Adams-Bashforth:</span></html>");
-        JLabel availMethodsLabel = new JLabel(
-            "<html><span style='font-family:SansSerif; font-size:16pt; "
-            + "font-weight:bold; color:#444444;'>Select at least one of the "
-            + "following methods:</span></html>");
         
         // Create check boxes for each solver option
         JCheckBox eulerBox = new JCheckBox("<html><span style='font-family:Serif;"
@@ -147,7 +193,7 @@ public class Gui {
         // Create a flag to signal when inputs are saved
         final boolean[] saved = {false};
         
-        // Create panels for each pair of labels and field, as well as check boxes
+        // Add the labels, fields, and check boxes to their respective panels
         equationPanel.add(equationLabel);
         equationPanel.add(equationField);
         initXPanel.add(initXLabel);
@@ -169,68 +215,114 @@ public class Gui {
         methodPanel.add(rk4Box);
         methodPanel.add(adamBashBox);
         introPanel.add(introLabel);
+        instructionPanel.add(instructionLabel);
         
         // Adding labels to section header panels
+        prevConfigsPanel.add(prevConfigsLabel);
         requiredInputsPanel.add(requiredInputsLabel);
         extraInputsPanel.add(extraInputsLabel);
         availMethodsPanel.add(availMethodsLabel);
         
-        // Create an ActionListener to save user inputs and populate the HashMap
-        saveButton.addActionListener(event -> {
-                // Verify that the user inputted appropriate values and throw
-                // an exception if not
-                try {
-                    equation = equationField.getText();
-                    initX = Double.parseDouble(initXField.getText());
-                    initY = Double.parseDouble(initYField.getText());
-                    finalX = Double.parseDouble(finalXField.getText());
-                    step = Double.parseDouble(stepField.getText());
-                    
-                    eulerSelected = eulerBox.isSelected();
-                    rk4Selected = rk4Box.isSelected();
-                    midpointSelected = midBox.isSelected();
-                    adamBashSelected = adamBashBox.isSelected();
-
-                    saved[0] = true; // Mark that inputs are saved
-                    frame.dispose(); // Close the frame after saving inputs
-                
-
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Please enter valid "
-                            + "numeric values for each of the required and "
-                            + "additional inputs, and ensure that at least "
-                            + "one of the available integration methods is selected.");
-                }
-                
-                // If Adams-Bashforth parameters were not specified, then set
-                // them to 0
-                try {
-                    nSteps = Integer.parseInt(nStepField.getText());
-                    minStep = Double.parseDouble(minStepField.getText());
-                    maxStep = Double.parseDouble(maxStepField.getText());                    
-                } catch (NumberFormatException ex) {
-                    nSteps = 0;
-                    minStep = 0.0;
-                    maxStep = 0.0;
-                }
-        });
-        
-        // Add the panels and button to the window
+        // Add all contents to the frame
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.add(introPanel);
+        frame.add(instructionPanel);
+        frame.add(border);
+        frame.add(Box.createVerticalStrut(20));
+        frame.add(prevConfigsPanel);
+        frame.add(prevConfigs);
+        frame.add(Box.createVerticalStrut(20));
         frame.add(requiredInputsPanel);
         frame.add(equationPanel);
         frame.add(initXPanel);
         frame.add(initYPanel);
         frame.add(finalXPanel);
         frame.add(stepPanel);
+        frame.add(Box.createVerticalStrut(20));                
         frame.add(extraInputsPanel);
         frame.add(nStepPanel);
         frame.add(minStepPanel);
         frame.add(maxStepPanel);
+        frame.add(Box.createVerticalStrut(20));                
         frame.add(availMethodsPanel);
         frame.add(methodPanel);
-        frame.add(saveButton);
+        frame.add(saveButton);        
+
+            // Verify that the user inputted appropriate values and throw
+            // an exception if not
+        
+        // Create an ActionListener to save user inputs and populate the HashMap
+        saveButton.addActionListener(event -> {
+            boolean validInput = true;
+            
+            // Record the index selected in the drop-down menu
+            int configChoice = prevConfigs.getSelectedIndex();
+            
+                // Determine which check boxes were selected
+                eulerSelected = eulerBox.isSelected();
+                rk4Selected = rk4Box.isSelected();
+                midpointSelected = midBox.isSelected();
+                adamBashSelected = adamBashBox.isSelected();
+                
+                // If the user selected a previous configuration, set the 
+                // input variables based on it
+                if (configChoice > 0) {
+                    equation = previous.get(configChoice - 1).get("Equation").toString();
+                    initX = Double.parseDouble(previous.get(configChoice - 1).get("x_0").toString());
+                    initY = Double.parseDouble(previous.get(configChoice - 1).get("y_0").toString());
+                    finalX = Double.parseDouble(previous.get(configChoice - 1).get("xEnd").toString());
+                    step = Double.parseDouble(previous.get(configChoice - 1).get("h").toString());     
+                    
+                    if (adamBashSelected) {
+                        try {
+                            nSteps = Integer.parseInt(nStepField.getText());
+                            minStep = Double.parseDouble(minStepField.getText());
+                            maxStep = Double.parseDouble(maxStepField.getText());                    
+                        } catch (NumberFormatException ex) {
+                            validInput = false;
+                            
+                            JOptionPane.showMessageDialog(frame, "Please enter "
+                                + "valid numerical values if you would like to "
+                                + "use the Adams-Bashforth method.");                             
+                        }
+                    }                    
+                }
+                // Otherwise, set input variables based on text fields
+                else {
+                    try {
+                        equation = equationField.getText();
+                        initX = Double.parseDouble(initXField.getText());
+                        initY = Double.parseDouble(initYField.getText());
+                        finalX = Double.parseDouble(finalXField.getText());
+                        step = Double.parseDouble(stepField.getText());                        
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(frame, "Please enter valid "
+                            + "numeric values for each of the required inputs "
+                            + "or select a previous configuration.");  
+                        
+                        validInput = false;
+                    }
+               
+                    if (adamBashSelected) {
+                        try {
+                            nSteps = Integer.parseInt(nStepField.getText());
+                            minStep = Double.parseDouble(minStepField.getText());
+                            maxStep = Double.parseDouble(maxStepField.getText());                    
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(frame, "Please enter "
+                                + "valid numerical values if you would like to "
+                                + "use the Adams-Bashforth method.");  
+                            
+                            validInput = false;
+                        }
+                    }
+                }
+                    
+                if (validInput) {
+                    saved[0] = true; // Mark that inputs are saved
+                    frame.dispose(); // Close the frame after saving inputs                      
+                }             
+        });
         
         frame.setVisible(true);
         frame.pack();
@@ -259,6 +351,7 @@ public class Gui {
         inputs.put("Midpoint", midpointSelected);
         inputs.put("Adam_Bashforth", adamBashSelected);
         
+        // Add the inputs to the database
         AddToDB returnVal = new AddToDB(inputs);
         returnVal.inputtingVals();
         
@@ -266,8 +359,8 @@ public class Gui {
     }    
     
     /**
-     * Window for solution page.Displays the graph of each method selected
-     * by the user in the same window.
+     * Displays solution window containing the graph of each method selected
+     * by the user.
      * 
      * @param result Hash map containing the integration results
      * @param presets Hash map containing the user's original inputs
@@ -292,7 +385,7 @@ public class Gui {
         // Create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
             "Numerical Integration Results: " + presets.get("Equation"), // Chart title
-            "t",                                                         // X-axis label (time)
+            "x",                                                         // X-axis label (time)
             "y",                                                         // Y-axis label
             dataset                                                      // Data
         );
