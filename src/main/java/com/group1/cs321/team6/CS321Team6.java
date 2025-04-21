@@ -15,7 +15,7 @@ public class CS321Team6 {
     /**
      * Default constructor for CS321Team6
      */
-    public CS321Team6(String[] args){
+    public CS321Team6(){
     // Explicit constructor for documentation
     }
     
@@ -23,7 +23,7 @@ public class CS321Team6 {
      * Entry point for the differential equation solver application.
      * @throws SQLException If database initialization fails
      */
-    public static void main() throws SQLException {
+    public static void main(String[] args) throws SQLException {
         initDB();
         
         // Open the main window that accepts the user's inputs and returns
