@@ -9,11 +9,9 @@ import java.util.List;
  */
 public class Factory {
     private final HashMap<String, Object> givenParameters;
-    private final UserInput userToRetrieve;
 
-    public Factory(HashMap<String, Object> parameters, UserInput user) {
+    public Factory(HashMap<String, Object> parameters) {
         this.givenParameters = parameters;
-        this.userToRetrieve = user;
     }
 
     /**
