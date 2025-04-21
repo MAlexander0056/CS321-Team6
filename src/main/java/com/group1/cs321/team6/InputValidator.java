@@ -18,7 +18,12 @@ import java.util.logging.Logger;
 public class InputValidator {
     private final HashMap<String, Object> inputMap;
     private static final Logger logger = Logger.getLogger(InputValidator.class.getName());
-
+    
+    /**
+     * This constructor takes in a map and creates a defensive copy later used
+     * for validation.
+     * @param inputMap This is the inputted map given by the GUI
+     */
     public InputValidator(HashMap<String, Object> inputMap) {
         this.inputMap = new HashMap<>(inputMap);
     }
@@ -41,7 +46,10 @@ public class InputValidator {
         }
         return isValid;
     }
-
+    /**
+     * Calls checkvalue over every inputted value from the inputted Map.
+     * @return This will return whether or not the inputted map passed validation.
+     */
     public Boolean checkInput() {
         for (String key : inputMap.keySet()) {
             if (!checkValue(key, inputMap.get(key))) {

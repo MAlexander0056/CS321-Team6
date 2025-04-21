@@ -9,7 +9,11 @@ import java.util.List;
  */
 public class Factory {
     private final HashMap<String, Object> givenParameters;
-
+     /**
+     * This constructor takes in a map, creates a defensive copy and passes it
+     * to the factory methods
+     * @param parameters Holds parameters given from the gui
+     */
     public Factory(HashMap<String, Object> parameters) {
         this.givenParameters = parameters;
     }
