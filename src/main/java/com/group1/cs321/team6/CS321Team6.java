@@ -21,6 +21,7 @@ public class CS321Team6 {
     
     /**
      * Entry point for the differential equation solver application.
+     * @param args unused
      * @throws SQLException If database initialization fails
      */
     public static void main(String[] args) throws SQLException {
