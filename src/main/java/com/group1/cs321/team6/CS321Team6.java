@@ -19,9 +19,7 @@ public class CS321Team6 {
         Gui guiWindow = new Gui();        
         HashMap<String, Object> presets = guiWindow.CreateMainWindow();
         
-        UserInput user = new UserInput(presets, "Cates", "password");
-        HashMap<String, Object> validated_presets = user.getPresets();
-        Factory factory = new Factory(validated_presets, user);
+        Factory factory = new Factory(presets);
 
         IntegrationRunner integration_runner = new IntegrationRunner(factory);
         
