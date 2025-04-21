@@ -20,6 +20,7 @@ import static com.group1.cs321.team6.GetFromDB.getRecentEquations;
  * introduction window that prompts the user for inputs, and the graph window
  * that displays the solution to the inputted ODE.
  */
+
 public class Gui {
     
     private String equation = "";
@@ -52,9 +53,10 @@ public class Gui {
         JLabel introLabel = new JLabel(
             "<html><body style='width:450px; font-family:Serif; font-size:18pt; "
             + "font-style:italic; color:blue;'>Welcome to our Ordinary "
-            + "Differential Equation solver! Enter any non-stiff initial value "
-            + "problem, and choose from the available numerical methods "
-            + "to see a graph of the solution.</body></html>");
+            + "Differential Equation solver! Enter any non-stiff, first order "
+            + "differential equation and its initial values, and choose from "
+            + "the available numerical methods to see a graph of the solution."
+            + "</body></html>");
         
         // Create instruction panel and text
         JPanel instructionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -247,9 +249,6 @@ public class Gui {
         frame.add(availMethodsPanel);
         frame.add(methodPanel);
         frame.add(saveButton);        
-
-            // Verify that the user inputted appropriate values and throw
-            // an exception if not
         
         // Create an ActionListener to save user inputs and populate the HashMap
         saveButton.addActionListener(event -> {
@@ -282,13 +281,16 @@ public class Gui {
                             validInput = false;
                             
                             JOptionPane.showMessageDialog(frame, "Please enter "
-                                + "valid numerical values if you would like to "
-                                + "use the Adams-Bashforth method.");                             
+                                + "valid numerical values for the additional "
+                                + "Adams-Bashforth inputs if you would like to "
+                                + "use that method.");                             
                         }
                     }                    
                 }
                 // Otherwise, set input variables based on text fields
                 else {
+                    // Verify that the user inputted appropriate values and throw
+                    // an exception if not                    
                     try {
                         equation = equationField.getText();
                         initX = Double.parseDouble(initXField.getText());
@@ -310,8 +312,9 @@ public class Gui {
                             maxStep = Double.parseDouble(maxStepField.getText());                    
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(frame, "Please enter "
-                                + "valid numerical values if you would like to "
-                                + "use the Adams-Bashforth method.");  
+                                + "valid numerical values for the additional "
+                                + "Adams-Bashforth inputs if you would like to "
+                                + "use that method."); 
                             
                             validInput = false;
                         }
@@ -350,10 +353,6 @@ public class Gui {
         inputs.put("RK4", rk4Selected);
         inputs.put("Midpoint", midpointSelected);
         inputs.put("Adam_Bashforth", adamBashSelected);
-        
-        // Add the inputs to the database
-        AddToDB returnVal = new AddToDB(inputs);
-        returnVal.inputtingVals();
         
         return inputs;
     }    
