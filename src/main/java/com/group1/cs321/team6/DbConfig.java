@@ -7,13 +7,22 @@ package com.group1.cs321.team6;
 import java.io.File;
 
 /**
- *
- * @author Admin
+ * This class holds the commonly used paths to important database related locations.
  */
-
-// Configuration class
 public class DbConfig {
+    /**
+     * Default constructor for DbConfig
+     */
+    public DbConfig(){
+        // Explicit constructor for documentation
+    }
+    /**
+     *Variable that holds the path to the database. 
+     */
     public static final String DB_PATH = System.getProperty("user.home") + "/.EquationSolver/StoredEquations.db";
+    /**
+     *Variable that holds the needed path for connection to the database 
+     */
     public static final String JDBC_URL = "jdbc:sqlite:" + DB_PATH.replace("\\", "/");
 
     static {

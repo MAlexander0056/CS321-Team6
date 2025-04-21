@@ -8,13 +8,25 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-/**
- * This class initializes the database with the correct tables. It will create 
- * a folder in the users home directory if not present and create the db file there.
- * This should always be run at the start of the program.
- */
-public class CreateDatabase {
 
+    /**
+    * This class should not be initialized however it holds the logic to create 
+    * the database.
+    */
+public class CreateDatabase {    
+    
+    /**
+    * Default constructor for CreateDatabase.
+    */
+    public CreateDatabase() {
+        // No initialization required
+    }
+    
+    /**
+     *This function initializes the database with the correct tables. It will create
+     *a folder in the users home directory if not present and create the db file there.
+     *This should always be run at the start of the program.
+     */
     public static void initDB() {
 
         // jdbc needs \ and not / it will break if replace isn't there

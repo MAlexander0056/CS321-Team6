@@ -10,7 +10,12 @@ import java.util.List;
 public class Factory {
     private final HashMap<String, Object> givenParameters;
     private final UserInput userToRetrieve;
-
+    
+    /**
+     * This constructor takes in a map, creates a defensive copy and passes it
+     * to the factory methods
+     * @param parameters Holds parameters given from the gui
+     */
     public Factory(HashMap<String, Object> parameters, UserInput user) {
         this.givenParameters = parameters;
         this.userToRetrieve = user;

@@ -27,10 +27,16 @@ import java.util.List;
  */
 public class GetFromDB {
     /**
+     * Default constructor for GetFromDB
+     */
+    public GetFromDB(){
+        // Explicit constructor for documentation
+    }
+    /**
      * This function returns the most recent addition to the database.
      * 
      * @return A hash map containing the most recent row from the database.
-     * @throws SQLException 
+     * @throws SQLException if value is not able to be returned from the DataBase.
      */
     public static HashMap<String, Object> getMostRecentEquation() throws SQLException {
     String query = "SELECT * FROM Equations ORDER BY id DESC LIMIT 1";
@@ -61,7 +67,7 @@ public class GetFromDB {
      * @param limit The number of rows to return from the database
      * @return A list of hash maps containing the desired number of rows from
      * the database.
-     * @throws SQLException
+     * @throws SQLException if value is not able to be returned from the DataBase.
      */
     public static List<HashMap<String, Object>> getRecentEquations(int limit) throws SQLException {
     List<HashMap<String, Object>> equations = new ArrayList<>();

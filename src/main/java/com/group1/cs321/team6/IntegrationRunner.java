@@ -20,9 +20,8 @@ public class IntegrationRunner {
 
     /**
      * Performs numerical integration using the specified methods.
-     *
-     * @param methodNames The names of the integration methods to use (e.g., "Euler", "RK4", "adamsbashforth")
-     * @return A HashMap mapping method names to a Pair of x-values (t-values) and y-value results
+     * @param integrators The names of the integration methods to use (e.g., "Euler", "RK4", "adamsbashforth")
+     *@return A HashMap mapping method names to a Pair of x-values (t-values) and y-value results
      */
     public HashMap<String, Pair<List<Double>, List<Double>>> performIntegration(List<Integrator> integrators) {
         HashMap<String, Pair<List<Double>, List<Double>>> result = new HashMap<>();

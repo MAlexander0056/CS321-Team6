@@ -4,14 +4,26 @@ import java.util.HashMap;
 import java.util.List;
 import static com.group1.cs321.team6.CreateDatabase.initDB;
 import java.sql.SQLException;
-/**
- *
- * @author Admin
- */
 
+/**
+ *This is the main class for team 6's , the Lunch club's, project. This class 
+ * implements various libraries in order to create a differential equation solver
+ * that effectively solves and shows different the accuracy of different methods.
+ */
 public class CS321Team6 {
 
-    public static void main(String[] args) throws SQLException {
+    /**
+     * Default constructor for CS321Team6
+     */
+    public CS321Team6(String[] args){
+    // Explicit constructor for documentation
+    }
+    
+    /**
+     * Entry point for the differential equation solver application.
+     * @throws SQLException If database initialization fails
+     */
+    public static void main() throws SQLException {
         initDB();
         
         // Open the main window that accepts the user's inputs and returns
