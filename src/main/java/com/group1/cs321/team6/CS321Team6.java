@@ -6,11 +6,24 @@ import static com.group1.cs321.team6.CreateDatabase.initDB;
 import java.sql.SQLException;
 
 /**
- * This class contains the main method to execute our program.
+ *This is the main class for team 6's , the Lunch club's, project. This class 
+ * implements various libraries in order to create a differential equation solver
+ * that effectively solves and shows different the accuracy of different methods.
  */
-
 public class CS321Team6 {
 
+    /**
+     * Default constructor for CS321Team6
+     */
+    public CS321Team6(){
+    // Explicit constructor for documentation
+    }
+    
+    /**
+     * Entry point for the differential equation solver application.
+     * @param args unused
+     * @throws SQLException If database initialization fails
+     */
     public static void main(String[] args) throws SQLException {
         // Initialize the database
         initDB();

@@ -23,6 +23,13 @@ import static com.group1.cs321.team6.GetFromDB.getRecentEquations;
 
 public class Gui {
     
+    /**
+     * Default constructor for Gui
+     */
+    public Gui(){
+        // Explicit constructor for documentation
+    }
+    
     private String equation = "";
     private double initX = 0.0;
     private double initY = 0.0;
@@ -41,7 +48,7 @@ public class Gui {
      * appropriate integrators.
      * 
      * @return A hash map containing the user's inputs
-     * @throws SQLException
+     * @throws SQLException if a database access error occurs
      */
     public HashMap<String, Object> CreateMainWindow() throws SQLException{
         // Create the main window

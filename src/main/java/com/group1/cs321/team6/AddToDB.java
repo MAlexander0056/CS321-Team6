@@ -12,21 +12,25 @@ import java.sql.PreparedStatement;
 import java.util.HashMap;
 
 /**
- *
- * @author Michael A
+ * This class handles the addition of new entries into the Sqllite database.
+ * 
  */
-
-
-
 public class AddToDB {
     
     private final HashMap<String, Object> inputMap;
-    
+    /**
+     * This constructor takes in a map, creates a defensive copy and tries to
+     * add it to the database.
+     * @param inputMap this value is the map passed in from the gui which
+     * will be added.
+     */
     public AddToDB(HashMap<String, Object> inputMap) {
         this.inputMap = new HashMap<>(inputMap); 
     }
     /**
      * Returns false if data was unsuccessful when adding
+     * @return Whether the entry was a success
+     * @throws SQLException if a database access error occurs
      */
     public Boolean inputtingVals() throws SQLException {
     InputValidator validator = new InputValidator(inputMap);
