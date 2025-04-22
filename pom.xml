@@ -68,6 +68,30 @@
                 <version>3.14.0</version>
             </plugin>
             <!-- Add other plugins here -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                            <manifest>
+                                <mainClass>
+                                    com.group1.cs321.team6
+                                </mainClass>
+                            </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
           
         </plugins>
     </build>
