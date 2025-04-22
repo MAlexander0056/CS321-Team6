@@ -32,18 +32,26 @@ public class CS321Team6 {
         Gui guiWindow = new Gui();        
         HashMap<String, Object> presets = guiWindow.CreateMainWindow();
         
+        // Adding values to the Database
+        AddToDB returnVal = new AddToDB(presets);
+        returnVal.inputtingVals();
+        
         Factory factory = new Factory(presets);
-
+        
+        // Perform the integration
         IntegrationRunner integration_runner = new IntegrationRunner(factory);
         
-        HashMap<String, Pair<List<Double>, List<Double>>> result = integration_runner.performIntegration(factory.createIntegrators());
-
+        // Store the integration results
+        HashMap<String, Pair<List<Double>, List<Double>>> result = 
+           integration_runner.performIntegration(factory.createIntegrators());
+        
+        // Print out the solution values of each method
         for (String key : result.keySet()) {
             Pair<List<Double>, List<Double>> value = result.get(key);
-            System.out.println("Key: " + key + ", tValues: " + value.getFirst() + ", yValues: " + value.getSecond());
+            System.out.println("Key: " + key + ", xValues: " + value.getFirst() + ", yValues: " + value.getSecond());
         }
 
-        // Create the graph
+        // Create the solution window
         guiWindow.CreateSolutionWindow(result, presets);
     }
 }
