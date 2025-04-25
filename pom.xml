@@ -81,7 +81,7 @@
                             <archive>
                             <manifest>
                                 <mainClass>
-                                    com.group1.cs321.team6.CS321Team6
+                                    com.group1.cs321.team6.model.CS321Team6
                                 </mainClass>
                             </manifest>
                             </archive>
