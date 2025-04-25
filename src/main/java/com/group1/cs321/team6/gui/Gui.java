@@ -1,5 +1,6 @@
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.gui;
 
+import com.group1.cs321.team6.model.Pair;
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.Component;
@@ -13,7 +14,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import static com.group1.cs321.team6.GetFromDB.getRecentEquations;
+import static com.group1.cs321.team6.model.GetFromDB.getRecentEquations;
 
 /**
  * This class creates both of the windows required for our project: the 
@@ -371,7 +372,7 @@ public class Gui {
      * @param result Hash map containing the integration results
      * @param presets Hash map containing the user's original inputs
      */
-    void CreateSolutionWindow(HashMap<String, Pair<List<Double>, List<Double>>> result, HashMap<String, Object> presets){
+    public void CreateSolutionWindow(HashMap<String, Pair<List<Double>, List<Double>>> result, HashMap<String, Object> presets){
         XYSeriesCollection dataset = new XYSeriesCollection();
 
         // For each integration method

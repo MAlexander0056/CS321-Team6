@@ -1,49 +1,48 @@
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.model;
 
-import org.apache.commons.math4.legacy.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math4.legacy.ode.nonstiff.ClassicalRungeKuttaIntegrator;
-import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
-import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+import org.apache.commons.math4.legacy.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.legacy.ode.nonstiff.LutherIntegrator;
+import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
+import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
 
 /**
- * A class that implements the fourth-order Runge-Kutta method for numerical integration of ODEs.
+ * A class that implements the Luther method, which is a sixth-order Runge-Kutta
+ * method, for numerical integration of ODEs.
  */
-public class RungeKuttaOrder4 implements Integrator {
+public class ExactSolution implements Integrator {
     // Instance variables
     private final String equation;         // ODE right-hand side (e.g., "x + y")
     private final double x0;               // Initial x value
     private final double y0;               // Initial y value
     private final double xEnd;             // End x value
-    private final double h;                // Step size
+    private final double h = 0.025;        // Fixed step size
     private final Expression expression;   // Parsed ODE expression
     private List<Double> xValues;          // Solution x points
-    private List<Double> yValues;          // Solution y points
-
-    /**
+    private List<Double> yValues;          // Solution y points    
+    
+     /**
      * Constructor to initialize the integrator.
      *
      * @param equation The ODE right-hand side as a string
      * @param x0       Initial x value
      * @param y0       Initial y value
      * @param xEnd     Final x value
-     * @param h        Step size
      */
-    public RungeKuttaOrder4(String equation, double x0, double y0, double xEnd, double h) {
+    public ExactSolution (String equation, double x0, double y0, double xEnd) {
         this.equation = equation;
         this.x0 = x0;
         this.y0 = y0;
         this.xEnd = xEnd;
-        this.h = h;
         // Parse the equation string into an evaluable expression
         this.expression = new ExpressionBuilder(equation).variables("x", "y").build();
     }
-
+    
     /**
-     * Performs the fourth-order Runge-Kutta integration.
+     * Performs the Luther integration
      */
     @Override
     public void integrate() {
@@ -54,8 +53,8 @@ public class RungeKuttaOrder4 implements Integrator {
         // Define the ODE
         FirstOrderDifferentialEquations ode = new ODE();
 
-        // Create the Runge-Kutta integrator with fixed step size
-        ClassicalRungeKuttaIntegrator integrator = new ClassicalRungeKuttaIntegrator(h);
+        // Create the Luther integrator with fixed step size
+        LutherIntegrator integrator = new LutherIntegrator(h);
 
         // Add a step handler to collect solution points at each step
         integrator.addStepHandler(new StepHandler() {
@@ -79,14 +78,14 @@ public class RungeKuttaOrder4 implements Integrator {
         // Set initial conditions and integrate
         double[] yStart = new double[]{y0};
         double[] yEnd = new double[1];
-        integrator.integrate(ode, x0, yStart, xEnd, yEnd);
+        integrator.integrate(ode, x0, yStart, xEnd, yEnd);        
     }
-
+   
     /**
-     * Gets the list of x values from the solution.
-     *
-     * @return List of x values
-     */
+    * Gets the list of x values from the solution.
+    *
+    * @return List of x values
+    */
     @Override
     public List<Double> getXValues() {
         return xValues;
@@ -101,8 +100,8 @@ public class RungeKuttaOrder4 implements Integrator {
     public List<Double> getYValues() {
         return yValues;
     }
-
-    /**
+    
+        /**
      * Inner class defining the ODE dy/dx = f(x, y).
      */
     private class ODE implements FirstOrderDifferentialEquations {
@@ -118,5 +117,5 @@ public class RungeKuttaOrder4 implements Integrator {
             expression.setVariable("y", y[0]);
             yDot[0] = expression.evaluate();
         }
-    }
+    }    
 }

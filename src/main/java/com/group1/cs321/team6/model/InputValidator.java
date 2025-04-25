@@ -7,13 +7,13 @@
  *
  * @author Michael A
  */
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.model;
 
 import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
 /**
-* This class uses regex patterns to test inputted paramaters.
+* This class uses regex patterns to test inputted parameters.
 */
 public class InputValidator {
     private final HashMap<String, Object> inputMap;
