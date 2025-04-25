@@ -1,7 +1,7 @@
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.model;
 
-import static com.group1.cs321.team6.DbConfig.JDBC_URL;
-import static com.group1.cs321.team6.DbConfig.DB_PATH;
+import static com.group1.cs321.team6.model.DbConfig.JDBC_URL;
+import static com.group1.cs321.team6.model.DbConfig.DB_PATH;
 
 import java.io.File;
 import java.sql.Connection;

@@ -1,8 +1,9 @@
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.model;
 
+import com.group1.cs321.team6.gui.Gui;
 import java.util.HashMap;
 import java.util.List;
-import static com.group1.cs321.team6.CreateDatabase.initDB;
+import static com.group1.cs321.team6.model.CreateDatabase.initDB;
 import java.sql.SQLException;
 
 /**

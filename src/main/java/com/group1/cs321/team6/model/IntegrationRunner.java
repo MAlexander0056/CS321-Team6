@@ -1,4 +1,4 @@
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,26 +43,5 @@ public class IntegrationRunner {
             case "ExactSolution": return "Exact Solution";
             default: return methodName;
         }
-    }
-}
-
-/**
- * Simple utility class to hold a pair of values.
- */
-class Pair<T, U> {
-    private final T first;
-    private final U second;
-
-    public Pair(T first, U second) {
-        this.first = first;
-        this.second = second;
-    }
-
-    public T getFirst() {
-        return first;
-    }
-
-    public U getSecond() {
-        return second;
     }
 }

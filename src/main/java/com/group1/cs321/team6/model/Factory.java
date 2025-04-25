@@ -1,4 +1,4 @@
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -11,7 +11,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <exec.mainClass>com.group1.cs321.team6.CS321Team6</exec.mainClass>		
+        <exec.mainClass>com.group1.cs321.team6.model.CS321Team6</exec.mainClass>		
     </properties>
     <dependencies>
         <dependency>
@@ -81,7 +81,7 @@
                             <archive>
                             <manifest>
                                 <mainClass>
-                                    com.group1.cs321.team6.CS321Team6
+                                    com.group1.cs321.team6.model.CS321Team6
                                 </mainClass>
                             </manifest>
                             </archive>

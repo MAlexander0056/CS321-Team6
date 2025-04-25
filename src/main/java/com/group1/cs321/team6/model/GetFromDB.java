@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.group1.cs321.team6;
+package com.group1.cs321.team6.model;
 
-import static com.group1.cs321.team6.DbConfig.JDBC_URL;
+import static com.group1.cs321.team6.model.DbConfig.JDBC_URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
